@@ -14,40 +14,38 @@ from fastai.metrics import error_rate
 # Xception/Tensorflow
 from tensorflow.keras.applications.xception import preprocess_input
 from tensorflow.keras.applications import Xception
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import SGD, RMSprop
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Flatten, Dropout
-from tensorflow.keras.models import Model
-
-
 from keras_preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
-
 
 
 
 class FastAI():    
     def __init__(self, path):
+        """ML model for predicting cancer given a directory of images"""
         self.path = path
         self.classes = sorted([d for d in os.listdir(path)])        
         
-    def verify_images(max_size):
+    def verify_images(self,max_size):
         """Verify images in folder and reduce if any dimension is above max_size"""
                 
         # Verify images and set max size
         for folder in ['benign', 'malignant']:
             print(folder)
-            verify_images(path/folder, delete=True, max_size=max_size)
+            verify_images(self.path/folder, delete=True, max_size=max_size)
             
         return "done"   
     
         
     def fit(self, model_name):
-        """ Fits model"""
+        """ Fits model
+        Inputs: model name for saving model
+        """
         
         # Set up image data bunch
         np.random.seed(np.random.randint(0,100))
-        data = ImageDataBunch.from_folder(path, train='.', valid_pct=0.2,
+        data = ImageDataBunch.from_folder(self.path, train='.', valid_pct=0.2,
                                  ds_tfms=get_transforms(), size=224, 
                                   num_workers=4).normalize(imagenet_stats)
         
@@ -60,7 +58,7 @@ class FastAI():
         self.learn.save(model_name)
         self.learn.unfreeze()
         
-        return self.learn
+        return None
     
     
     def learning_rate(self):
@@ -71,7 +69,7 @@ class FastAI():
         metric = ClassificationInterpretation.from_learner(self.learn)
         return metric.plot_confusion_matrix()
     
-    def predict(self, img_path):
+    def predict_image(self, img_path):
         """Predicts class of image
         
         Inputs: path to image (.png or .jpg)
@@ -151,7 +149,7 @@ class Xception():
                                  validation_data=self.val_generator, validation_steps=self.n_val//16)        
         
         model.save_weights('models/weights.h5')
-#        model.save('models/transfermodel.h5')
+        #model.save('models/transfermodel.h5')
         
         return None
     
