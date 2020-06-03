@@ -17,9 +17,11 @@ from tensorflow.keras.applications import Xception
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import SGD, RMSprop
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Flatten, Dropout
+from tensorflow.keras.models import Model
+
 
 from keras_preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
-
 
 
 
@@ -84,5 +86,88 @@ class FastAI():
     
     
 class Xception():
+    def __init__(self, img_width, img_height, channels=3, classes=2):
+        self.img_width = img_width
+        self.img_height = img_height
+        self.channels = channels
+        self.classes = classes
+        
+        # Set up datagen
+        self.train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input,
+                                      horizontal_flip=True) 
+        self.val_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+        self.test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
     
     
+    def create_transfer_model(self, input_size, n_categories, weights = 'imagenet'):
+        # note that the "top" is not included in the weights below
+        base_model = Xception(weights=weights,
+                          include_top=False,
+                          input_shape=input_size)
+        
+        self.model = base_model.output
+        self.model = GlobalAveragePooling2D()(model)
+        predictions = Dense(n_categories, activation='softmax')(model)
+        self.model = Model(inputs=base_model.input, outputs=predictions)
+        
+        return self.model
+    
+    def change_trainable_layers(self, model, trainable_index):
+        for layer in self.model.layers[:trainable_index]:
+            layer.trainable = False
+        for layer in self.model.layers[trainable_index:]:
+            layer.trainable = True
+            
+        return None
+        
+        
+    def compile_model(self, train_path, val_path):
+        """Compile the model by training only the head of Xception model"""
+        
+        # Get generators
+        train_generator = self.train_datagen.flow_from_directory(train_path, 
+                                                       target_size=(self.img_width,self.img_height), 
+                                                       batch_size=16)
+        validation_generator = self.val_datagen.flow_from_directory(val_path, 
+                                                              target_size=(self.img_width,self.img_height), 
+                                                              batch_size=16)
+
+        # Get model
+        model = create_transfer_model((self.img_width,self.img_height,self.channels),self.classes) 
+        
+        # Change trainable head
+        _ = change_trainable_layers(self.model, 132)
+        
+        # Compile model. Changed lr from 0.0005 to 0.005
+self.model.compile(optimizer=RMSprop(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
+
+        return None
+
+
+
+    def fit(self):
+        """Fit model"""
+        
+        self.model.fit_generator(train_generator,
+                   steps_per_epoch=1666//16,
+                   epochs=3,
+                   validation_data=self.val_generator,
+                   validation_steps=415//16)
+        
+        
+        model.save_weights('models/weights.h5')
+#        model.save('models/transfermodel.h5')
+        
+        return None
+    
+    
+    def predict(self, test_path):
+        """Predict on directory of images"""
+        
+        test_generator = self.test_datagen.flow_from_directory(test_path,
+                                                 target_size=(self.img_width,self.img_height),
+                                                 batch_size=16)
+        predictions = model.predict(test_generator)
+
+        
+        return predictions
