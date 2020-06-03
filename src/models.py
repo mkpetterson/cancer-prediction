@@ -26,8 +26,7 @@ from keras_preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 
 
 
-class FastAI():
-    
+class FastAI():    
     def __init__(self, path):
         self.path = path
         self.classes = sorted([d for d in os.listdir(path)])        
@@ -124,7 +123,7 @@ class Xception():
     def compile_model(self, train_path, val_path):
         """Compile the model by training only the head of Xception model"""
         
-        # Get generators
+        # Get generators and parameters for training/validation data
         train_generator = self.train_datagen.flow_from_directory(train_path, 
                                                        target_size=(self.img_width,self.img_height), 
                                                        batch_size=16)
@@ -132,14 +131,14 @@ class Xception():
                                                               target_size=(self.img_width,self.img_height), 
                                                               batch_size=16)
 
-        # Get model
+        self.n_train = len([f for f in os.listdir(train_path)])
+        self.n_val = len([f for f in os.listdir(val_path)])        
+        
+        
+        # Create model, make head trainable, and compile
         model = create_transfer_model((self.img_width,self.img_height,self.channels),self.classes) 
-        
-        # Change trainable head
         _ = change_trainable_layers(self.model, 132)
-        
-        # Compile model. Changed lr from 0.0005 to 0.005
-self.model.compile(optimizer=RMSprop(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
+        self.model.compile(optimizer=RMSprop(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
 
         return None
 
@@ -148,12 +147,8 @@ self.model.compile(optimizer=RMSprop(lr=0.01), loss='categorical_crossentropy', 
     def fit(self):
         """Fit model"""
         
-        self.model.fit_generator(train_generator,
-                   steps_per_epoch=1666//16,
-                   epochs=3,
-                   validation_data=self.val_generator,
-                   validation_steps=415//16)
-        
+        self.model.fit_generator(train_generator, steps_per_epoch=self.n_train//16, epochs=3, 
+                                 validation_data=self.val_generator, validation_steps=self.n_val//16)        
         
         model.save_weights('models/weights.h5')
 #        model.save('models/transfermodel.h5')
@@ -169,5 +164,4 @@ self.model.compile(optimizer=RMSprop(lr=0.01), loss='categorical_crossentropy', 
                                                  batch_size=16)
         predictions = model.predict(test_generator)
 
-        
         return predictions
