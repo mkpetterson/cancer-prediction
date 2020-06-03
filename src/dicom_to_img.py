@@ -22,8 +22,20 @@ def make_jpeg():
                 try:
                     dicom = dm.dcmread(file_path)
                     array = dicom.pixel_array
-                    plt.imshow(array)
-                    plt.savefig(f'{d}.png', dpi=350)
+                    
+                    # Crop 10% off all sides
+                    rows, cols = array.shape
+                    row_inc = int(round(0.05*rows))
+                    col_inc = int(round(0.05*cols))
+
+                    arr = array[row_inc:rows-row_inc, col_inc:cols-col_inc]            
+
+                        # Save as image. Matplotlib adds lots of crap we don't want
+                    image = cv2.resize(arr, (int(cols * 0.4), int(rows * 0.4)))
+                    image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
+                    image = np.uint8(image)
+                    cv2.imwrite(f'{d}.jpg', image)
+                              
                 except:
                     print(d)
     return 0
