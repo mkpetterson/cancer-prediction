@@ -41,6 +41,7 @@ class FastAI():
     def fit(self, model_name):
         """ Fits model
         Inputs: model name for saving model
+        Returns: model (might delete this)
         """
         
         # Set up image data bunch
@@ -60,10 +61,11 @@ class FastAI():
         
         return None
     
-    
+    # Not working for now
     def learning_rate(self):
         # Plot learning rate
-        return self.learn.recorder.plot()
+        self.learn.recorder.plot()
+        return None
     
     def confusion_matrix(self):
         metric = ClassificationInterpretation.from_learner(self.learn)
@@ -76,8 +78,8 @@ class FastAI():
         Returns: prediction for both classes
         """
         
-        image = open_image(path)
-        data = ItemBase(path)
+        image = open_image(img_path)
+        data = ItemBase(img_path)
         
         return self.classes, self.learn.predict(image)
     
