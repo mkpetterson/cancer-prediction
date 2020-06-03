@@ -17,11 +17,13 @@ from tensorflow.keras.applications import Xception
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import SGD, RMSprop
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Flatten, Dropout
-from keras_preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from keras_preprocessing.image import ImageDataGenerator as ImageDataGen
+from keras_preprocessing.image import array_to_img, img_to_array, load_img
 
 
 
 class FastAI():    
+    
     def __init__(self, path):
         """ML model for predicting cancer given a directory of images"""
         self.path = path
@@ -84,29 +86,30 @@ class FastAI():
         return self.classes, self.learn.predict(image)
     
     
-class Xception():
+class Xception_model():
+    
     def __init__(self, img_width, img_height, channels=3, classes=2):
+        """ Trains model using Xception as base and only trains head on image data"""
         self.img_width = img_width
         self.img_height = img_height
         self.channels = channels
         self.classes = classes
         
         # Set up datagen
-        self.train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input,
-                                      horizontal_flip=True) 
-        self.val_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
-        self.test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+        self.train_datagen = ImageDataGen(preprocessing_function=preprocess_input,
+                                                horizontal_flip=True) 
+        self.val_datagen = ImageDataGen(preprocessing_function=preprocess_input)
+        self.test_datagen = ImageDataGen(preprocessing_function=preprocess_input)
     
     
-    def create_transfer_model(self, input_size, n_categories, weights = 'imagenet'):
+    def create_transfer_model(self, input_size, n_categories, weights='imagenet'):
         # note that the "top" is not included in the weights below
-        base_model = Xception(weights=weights,
-                          include_top=False,
-                          input_shape=input_size)
+        base_model = Xception(weights=weights, include_top=False, 
+                              input_shape=input_size)
         
         self.model = base_model.output
-        self.model = GlobalAveragePooling2D()(model)
-        predictions = Dense(n_categories, activation='softmax')(model)
+        self.model = GlobalAveragePooling2D()(self.model)
+        predictions = Dense(n_categories, activation='softmax')(self.model)
         self.model = Model(inputs=base_model.input, outputs=predictions)
         
         return self.model
@@ -124,33 +127,40 @@ class Xception():
         """Compile the model by training only the head of Xception model"""
         
         # Get generators and parameters for training/validation data
-        train_generator = self.train_datagen.flow_from_directory(train_path, 
+        self.train_generator = self.train_datagen.flow_from_directory(train_path, 
                                                        target_size=(self.img_width,self.img_height), 
                                                        batch_size=16)
-        validation_generator = self.val_datagen.flow_from_directory(val_path, 
+        self.val_generator = self.val_datagen.flow_from_directory(val_path, 
                                                               target_size=(self.img_width,self.img_height), 
                                                               batch_size=16)
-
-        self.n_train = len([f for f in os.listdir(train_path)])
-        self.n_val = len([f for f in os.listdir(val_path)])        
+        # Get number of samples
+        self.n_train = self.train_generator.samples
+        self.n_val = self.val_generator.samples        
         
         
         # Create model, make head trainable, and compile
-        model = create_transfer_model((self.img_width,self.img_height,self.channels),self.classes) 
-        _ = change_trainable_layers(self.model, 132)
-        self.model.compile(optimizer=RMSprop(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
+        self.model = self.create_transfer_model((self.img_width,self.img_height,
+                                       self.channels),self.classes) 
+        
+        _ = self.change_trainable_layers(self.model, 132)
+        
+        self.model.compile(optimizer=RMSprop(lr=0.01), 
+                           loss='categorical_crossentropy', metrics=['accuracy'])
 
-        return None
+        return self.n_train, self.n_val
 
 
 
     def fit(self):
         """Fit model"""
         
-        self.model.fit_generator(train_generator, steps_per_epoch=self.n_train//16, epochs=3, 
-                                 validation_data=self.val_generator, validation_steps=self.n_val//16)        
+        self.model.fit_generator(self.train_generator, 
+                                 steps_per_epoch=self.n_train//16, 
+                                 epochs=1, 
+                                 validation_data=self.val_generator, 
+                                 validation_steps=self.n_val//16)        
         
-        model.save_weights('models/weights.h5')
+        #self.model.save_weights('models/weights-try1.h5')
         #model.save('models/transfermodel.h5')
         
         return None
@@ -162,6 +172,6 @@ class Xception():
         test_generator = self.test_datagen.flow_from_directory(test_path,
                                                  target_size=(self.img_width,self.img_height),
                                                  batch_size=16)
-        predictions = model.predict(test_generator)
+        predictions = self.model.predict(test_generator)
 
-        return predictions
+        return test_generator.filenames, predictions
