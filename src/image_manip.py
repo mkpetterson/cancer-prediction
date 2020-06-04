@@ -8,12 +8,11 @@ from scipy import misc
 
 
 
-
 def dicom_to_img():
     
     # Need to be in folder with all the Mammogram dicom images
-    print(os.getcwd())
-
+    path = '/home/maureen/Documents/Galvanize/Capstone1/Capstone3/Cancer_Prediction/data/CBIS-DDSM'
+    os.chdir(path)
     dirs = [d for d in os.listdir()]
 
     # One dicom file in each directory, but very nested
@@ -45,7 +44,33 @@ def dicom_to_img():
     return 0
     
 
+def crop_mammograms(img_path):
+    """ Crops mammograms, resizes, and normalizes pixels"""
+    
+    # Read image
+    im = cv2.imread(img_path)
+    image_name = os.path.splitext(img_path)[0]
+    
+    # Crop and normalize
+    rows, cols, channels = im.shape
+    row_inc = int(round(0.05*rows))
+    col_inc = int(round(0.05*cols))
 
+    arr = im[row_inc:rows-row_inc, col_inc:cols-col_inc, :] 
+    image = cv2.resize(arr, (int(cols * 0.3), int(rows * 0.3)))
+    cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
+    
+    # Save
+    image = np.uint8(image)
+    cv2.imwrite(f'{image_name}.png', image)
+    
+    return 0
+    
+    
+    
+    
+    
+    
 
 def sort_by_mag(root, file):
     """ Sorts files by magnification"""
@@ -80,27 +105,26 @@ def sort_images(path):
     return 0
 
 
-
-def crop_image(file):
-    """ Crops malignant images"""
+def create_new_images(x):
+    """Inputs an image and creates more"""
     
-    file_name = os.path.splitext(file)[0]
-    
-    im = imageio.imread(file)
-    im_cropped = im[200:1200, 800:1400, :]
-#    print(im_cropped.shape)
-    
-    fig = plt.figure(frameon=False, figsize=(3,5))
-    
-    # Make content fill full figure
-    ax = plt.Axes(fig, [0., 0., 1., 1.])
-    ax.set_axis_off()
-    fig.add_axes(ax)
-    
-    ax.imshow(im_cropped, aspect='auto', cmap='gray')
-    fig.savefig(f'{file_name}.png', bbox_inches='tight', dpi=350)
-    plt.close(fig)
-
+    datagen = ImageDataGenerator(width_shift_range=0.1,
+                            height_shift_range=0.1,
+                            shear_range=0.1,
+                            zoom_range=0.1,
+                            horizontal_flip=True,
+                            fill_mode='constant',
+                            cval=0)  
+        
+    i = 0
+    for batch in datagen.flow(x, batch_size=1,
+                         save_to_dir='data/Histology/new_benign',
+                         save_prefix='benign',
+                         save_format='jpeg'):
+        i += 1 
+        if i > 3:
+            break
+            
     return 0
 
     

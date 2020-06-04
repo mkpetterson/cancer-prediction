@@ -16,6 +16,7 @@ from tensorflow.keras.applications.xception import preprocess_input
 from tensorflow.keras.applications import Xception
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import SGD, RMSprop
+from tensorflow.keras.metrics import AUC
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Flatten, Dropout
 from keras_preprocessing.image import ImageDataGenerator as ImageDataGen
 from keras_preprocessing.image import array_to_img, img_to_array, load_img
@@ -145,7 +146,7 @@ class Xception_model():
         
         _ = self.change_trainable_layers(self.model, 132)
         
-        self.model.compile(optimizer=RMSprop(lr=0.01), 
+        self.model.compile(optimizer='adam', 
                            loss='categorical_crossentropy', metrics=['accuracy'])
 
         return self.n_train, self.n_val
@@ -157,7 +158,7 @@ class Xception_model():
         
         self.model.fit_generator(self.train_generator, 
                                  steps_per_epoch=self.n_train//16, 
-                                 epochs=1, 
+                                 epochs=4, 
                                  validation_data=self.val_generator, 
                                  validation_steps=self.n_val//16)        
         
