@@ -102,7 +102,9 @@ def uniform_size(img_path):
     # Resize to match minimum dimension. 
     resize = target_width/new_im.shape[1]    
     resize_im = cv2.resize(new_im, (target_width, target_height))
-
+    
+    # Renormalize to make sure all have similar brightness scale
+    cv2.normalize(resize_im, None, 0, 255, cv2.NORM_MINMAX)
     cv2.imwrite(f'{img_name}_ar.png', resize_im)
             
     return 0
@@ -127,17 +129,6 @@ def sort_by_mag(root, file):
     print(file_old_path, file_new_path)
     shutil.move(file_old_path, file_new_path)
     
-    return 0
-
-def sort_images(path):
-    """Sorts histology files. Need to be in either benign or malignant folder"""
-    
-    for root,dirs,files in os.walk(path):
-        for f in files:
-            if '.png' in f:
-                sort_by_mag(root, f)
-            else:
-                print(f)
     return 0
 
 

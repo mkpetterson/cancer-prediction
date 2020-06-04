@@ -37,7 +37,7 @@ class FastAI():
         """Verify images in folder and reduce if any dimension is above max_size"""
                 
         # Verify images and set max size
-        for folder in ['benign', 'malignant']:
+        for folder in ['cancer', 'normal']:
             print(folder)
             verify_images(self.path/folder, delete=True, max_size=max_size)
             
