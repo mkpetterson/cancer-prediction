@@ -80,8 +80,8 @@ def uniform_size(img_path):
     
     # Define best ar for MLO (need to fix cc normals)
     target_ar = 720/400
-    target_width = 400
-    target_height = int(round(target_width*target_ar))
+    target_width = 277
+    target_height = 500#int(round(target_width*target_ar))
 
     # If too many rows, crop rows
     if ar >= target_ar:

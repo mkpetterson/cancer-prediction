@@ -35,8 +35,10 @@ def sinogram(img_path):
     img_name = os.path.splitext(img_path)[0]  
     
     # Open image and rescale (sinogram is slow)
-    image = imageio.imread(img_path) # for 3 channel images
-    image = rescale(image, scale=0.4, mode='reflect', multichannel=False)
+    image = imageio.imread(img_path).sum(axis=2) # for 3 channel images
+    
+    # Rescale if dealing with large image, otherwise ignore
+ #   image = rescale(image, scale=0.4, mode='reflect', multichannel=False)
     
     # Make sinogram
     theta = np.linspace(0., 180., max(image.shape), endpoint=False)

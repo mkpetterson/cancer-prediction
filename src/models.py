@@ -157,9 +157,9 @@ class Xception_model():
     def fit(self):
         """Fit model"""
         
-        self.model.fit_generator(self.train_generator, 
+        self.model.fit(self.train_generator, 
                                  steps_per_epoch=self.n_train//16, 
-                                 epochs=4, 
+                                 epochs=1, 
                                  validation_data=self.val_generator, 
                                  validation_steps=self.n_val//16)        
         
