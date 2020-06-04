@@ -2,6 +2,7 @@ import os
 import sys
 import shutil
 import numpy
+import cv2
 
 import imageio
 from scipy import misc
@@ -45,7 +46,7 @@ def dicom_to_img():
     
 
 def crop_mammograms(img_path):
-    """ Crops mammograms, resizes, and normalizes pixels"""
+    """ Crops normal mammograms, resizes, and normalizes pixels"""
     
     # Read image
     im = cv2.imread(img_path)
@@ -57,7 +58,7 @@ def crop_mammograms(img_path):
     col_inc = int(round(0.05*cols))
 
     arr = im[row_inc:rows-row_inc, col_inc:cols-col_inc, :] 
-    image = cv2.resize(arr, (int(cols * 0.3), int(rows * 0.3)))
+    image = cv2.resize(arr, (int(cols * 0.4), int(rows * 0.4)))
     cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
     
     # Save
@@ -67,9 +68,44 @@ def crop_mammograms(img_path):
     return 0
     
     
+def uniform_size(img_path):
+    """ Resizes all images to have same AR and same size"""
     
+    img_name = os.path.splitext(img_path)[0]
     
+    # Read image
+    im = cv2.imread(img_path)
+    rows, cols, channels = im.shape    
+    ar = rows/cols
     
+    # Define best ar for MLO (need to fix cc normals)
+    target_ar = 720/400
+    target_width = 400
+    target_height = int(round(target_width*target_ar))
+
+    # If too many rows, crop rows
+    if ar >= target_ar:
+
+        target_rows = int(cols*target_ar)
+        delta = rows - target_rows
+        new_im = im[delta//2:rows-delta//2, :,:]
+        rows, cols, channels = new_im.shape
+
+    # if too many columns, crop columns
+    if ar < target_ar:
+
+        target_cols = int(rows/target_ar)    
+        delta = cols - target_cols
+        new_im = im[:,delta//2:cols-delta//2,:]
+        rows, cols, channels = new_im.shape        
+
+    # Resize to match minimum dimension. 
+    resize = target_width/new_im.shape[1]    
+    resize_im = cv2.resize(new_im, (target_width, target_height))
+
+    cv2.imwrite(f'{img_name}_ar.png', resize_im)
+            
+    return 0
     
 
 def sort_by_mag(root, file):

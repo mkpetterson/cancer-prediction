@@ -21,7 +21,8 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Flatten, Drop
 from keras_preprocessing.image import ImageDataGenerator as ImageDataGen
 from keras_preprocessing.image import array_to_img, img_to_array, load_img
 
-
+#In fastai we follow the convention of numpy and pytorch for image dimensions: 
+#(height, width). It's different from PIL or matplolib so don't get confused.
 
 class FastAI():    
     
@@ -61,7 +62,7 @@ class FastAI():
         self.learn.fit_one_cycle(4)
         
         # Save model
-        self.learn.save(model_name)
+        self.learn.save(f'../../{model_name}')
         self.learn.unfreeze()
         
         return None

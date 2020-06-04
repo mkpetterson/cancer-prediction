@@ -28,3 +28,21 @@ def fft(img_path):
     imageio.imsave(f'{img_name}_fft.png', fft)
     
     return None
+
+
+def sinogram(img_path):    
+    
+    img_name = os.path.splitext(img_path)[0]  
+    
+    # Open image and rescale (sinogram is slow)
+    image = imageio.imread(img_path) # for 3 channel images
+    image = rescale(image, scale=0.4, mode='reflect', multichannel=False)
+    
+    # Make sinogram
+    theta = np.linspace(0., 180., max(image.shape), endpoint=False)
+    sino = radon(image, theta=theta, circle=True)
+    
+    # Save image
+    imageio.imsave(f'../sino/{img_name}_sino.png', sino)
+    
+    return None
