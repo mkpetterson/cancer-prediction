@@ -60,7 +60,7 @@ class FastAI():
         # Start training
         self.learn = cnn_learner(data, models.resnet34, metrics=error_rate)
         defaults.device = torch.device('cpu') #cuda
-        self.learn.fit_one_cycle(1)
+        self.learn.fit_one_cycle(4)
         
         # Save model
         #self.learn.save(f'../../{model_name}')
@@ -88,6 +88,17 @@ class FastAI():
         image = open_image(img_path)
         
         return self.learn.predict(image)
+    
+    def get_predictions(self, pred_tensor):
+            """ Turn FastAI tensor into y_pred and y_proba"""
+            
+        arr = np.asarray(pred_tensor)
+
+        y_pred = arr[:,1].astype(int)
+        proba_tensor = [np.array(i) for i in arr[:,2]]
+        y_proba = np.asarray(proba_tensor)
+
+        return y_pred, y_proba
     
     
 class Xception_model():
