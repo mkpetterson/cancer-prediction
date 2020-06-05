@@ -62,7 +62,7 @@ class FastAI():
         self.learn.fit_one_cycle(4)
         
         # Save model
-        self.learn.save(f'../../{model_name}')
+        #self.learn.save(f'../../{model_name}')
         self.learn.unfreeze()
         
         return None
