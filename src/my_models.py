@@ -13,7 +13,7 @@ from fastai.metrics import error_rate
 
 # Xception/Tensorflow
 from tensorflow.keras.applications.xception import preprocess_input
-from tensorflow.keras.applications import Xception
+from tensorflow.keras.applications import Xception, MobileNetV2
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import SGD, RMSprop
 from tensorflow.keras.metrics import AUC
@@ -37,7 +37,8 @@ class FastAI():
         """Verify images in folder and reduce if any dimension is above max_size"""
                 
         # Verify images and set max size
-        for folder in ['cancer', 'normal']:
+        dirs = [d for d in os.listdir(self.path)]
+        for folder in dirs:
             print(folder)
             verify_images(self.path/folder, delete=True, max_size=max_size)
             
@@ -59,7 +60,7 @@ class FastAI():
         # Start training
         self.learn = cnn_learner(data, models.resnet34, metrics=error_rate)
         defaults.device = torch.device('cpu') #cuda
-        self.learn.fit_one_cycle(4)
+        self.learn.fit_one_cycle(1)
         
         # Save model
         #self.learn.save(f'../../{model_name}')
@@ -100,8 +101,10 @@ class Xception_model():
         
         # Set up datagen
         self.train_datagen = ImageDataGen(preprocessing_function=preprocess_input,
-                                                horizontal_flip=True) 
-        self.val_datagen = ImageDataGen(preprocessing_function=preprocess_input)
+                                          rescale=1./255,
+                                          horizontal_flip=True) 
+        self.val_datagen = ImageDataGen(preprocessing_function=preprocess_input,
+                                       rescale=1./255,)
         self.test_datagen = ImageDataGen(preprocessing_function=preprocess_input)
     
     
