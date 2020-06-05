@@ -163,7 +163,7 @@ class Xception_model():
                                  validation_data=self.val_generator, 
                                  validation_steps=self.n_val//16)        
         
-      #  self.model.save_weights(f'models/weights_{self.name}.h5')
+        self.model.save_weights(f'../weights_1.h5')
         #model.save('models/transfermodel.h5')
         
         return None

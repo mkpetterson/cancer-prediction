@@ -59,7 +59,7 @@ def crop_mammograms(img_path):
 
     arr = im[row_inc:rows-row_inc, col_inc:cols-col_inc, :] 
     image = cv2.resize(arr, (int(cols * 0.4), int(rows * 0.4)))
-    cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
+    image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
     
     # Save
     image = np.uint8(image)
@@ -80,8 +80,8 @@ def uniform_size(img_path):
     
     # Define best ar for MLO (need to fix cc normals)
     target_ar = 720/400
-    target_width = 277
-    target_height = 500#int(round(target_width*target_ar))
+    target_width = 400
+    target_height = 720#int(round(target_width*target_ar))
 
     # If too many rows, crop rows
     if ar >= target_ar:
@@ -104,8 +104,8 @@ def uniform_size(img_path):
     resize_im = cv2.resize(new_im, (target_width, target_height))
     
     # Renormalize to make sure all have similar brightness scale
-    cv2.normalize(resize_im, None, 0, 255, cv2.NORM_MINMAX)
-    cv2.imwrite(f'{img_name}_ar.png', resize_im)
+    resize_im = cv2.normalize(resize_im, None, 0, 255, cv2.NORM_MINMAX)
+    cv2.imwrite(f'{img_name}.png', resize_im)
             
     return 0
     
