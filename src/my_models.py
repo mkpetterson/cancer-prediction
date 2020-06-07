@@ -90,7 +90,7 @@ class FastAI():
         return self.learn.predict(image)
     
     def get_predictions(self, pred_tensor):
-            """ Turn FastAI tensor into y_pred and y_proba"""
+        """ Turn FastAI tensor into y_pred and y_proba"""
             
         arr = np.asarray(pred_tensor)
 
@@ -110,12 +110,12 @@ class Xception_model():
         self.channels = channels
         self.classes = classes
         
-        # Set up datagen
+        # Set up datagen Rescale seems to change accuracy. check this
         self.train_datagen = ImageDataGen(preprocessing_function=preprocess_input,
-                                          rescale=1./255,
+                                        #  rescale=1./255,
                                           horizontal_flip=True) 
-        self.val_datagen = ImageDataGen(preprocessing_function=preprocess_input,
-                                       rescale=1./255,)
+        self.val_datagen = ImageDataGen(preprocessing_function=preprocess_input)
+                                 #      rescale=1./255,)
         self.test_datagen = ImageDataGen(preprocessing_function=preprocess_input)
     
     
@@ -173,7 +173,7 @@ class Xception_model():
         
         self.model.fit(self.train_generator, 
                                  steps_per_epoch=self.n_train//16, 
-                                 epochs=1, 
+                                 epochs=4, 
                                  validation_data=self.val_generator, 
                                  validation_steps=self.n_val//16)        
         
