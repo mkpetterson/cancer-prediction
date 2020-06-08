@@ -45,6 +45,6 @@ def sinogram(img_path):
     sino = radon(image, theta=theta, circle=True)
     
     # Save image
-    imageio.imsave(f'../sino/{img_name}_sino.png', sino)
+    imageio.imsave(f'{img_name}_sino.png', sino)
     
     return None
