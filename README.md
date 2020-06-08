@@ -1,10 +1,5 @@
 <img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
-<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" width="500" height="50">
-<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" width="500px" height="50px">
-![   ](images/readme/cancer_A_1118_1.RIGHT_CC_sino.png =500x50)
-
-![    ](images/readme/cancer_A_1118_1.RIGHT_CC_sino.png | width=500)
-
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png"  height="100">
 
 # Cancer Detection Using Convolutional Neural Networks
 
