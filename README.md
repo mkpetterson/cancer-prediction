@@ -1,5 +1,5 @@
 <img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
-<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png"  height="100">
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png"  width="1000" height="100">
 
 # Cancer Detection Using Convolutional Neural Networks
 
@@ -126,6 +126,8 @@ Sinograms and Fast Fourier Transforms were applied to the images after processin
 </table>
 
 
+The data was split into train/validation/test sets with the percentages of each being 70/20/10. Model performance was gauged based on both accuracy and AUC of the test set. 
+
 ## Neural Network Selection
 
 
@@ -145,6 +147,25 @@ Sinograms and Fast Fourier Transforms were applied to the images after processin
 
 
 ## Model Performance
+
+<b>Histology Images</b>
+
+Using FASTAI with thre resnet34 model (34 layers), we achieved an accuracy of >87% on the test set across all the magnifications for the normal images. Looking at the AUC curves shows excellent performance across all magnifications ranging from 0.92 to 0.97. The Fourier Transforms of the data did not perform well and are barely above random guessing. 
+
+<table>
+    <th>No Transform</th>
+    <th>FFT</th>
+    <tr>
+        <td><img src="images/hist/roc_hist_all.png" width="500px;"></td>
+        <td><img src="images/hist/roc_fft_hist.png" width="500px;"></td>
+    </tr>
+</table>
+
+
+<b>Radiographic Images</b>
+
+The performance on the mammograms was less than the histology data. This is unsurprising given that a fair number of the positive cases are indistinguisable from the negative cases upon a cursory look at all the data. The MLO and CC datasets were trained separately and the CC cases outperformed MLO by roughly +10% on accuracy. This is likely due to the MLO images including sections of pectoral muscle, which could have increased the difficulty in training the model.  
+
 
 
 
