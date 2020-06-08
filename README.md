@@ -1,5 +1,4 @@
-<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
-<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png"  width="1000" height="100">
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png"  width="1000" height="200">
 
 # Cancer Detection Using Convolutional Neural Networks
 
@@ -24,15 +23,6 @@ The advent of image classsification thorugh machine learning has given the medic
 
 The goal of this project was to build a simple breast cancer image classifier using convolutional neural networks using both histology (microscopic) images from biopsies and radiographic images (mammograms). Additionally, Radon transforms and Fast Fourier Transforms were applied to see if they could augment the predictions. 2 different CNNs were investigated: Tensorflow and Pytorch-based FastAI. 
 
-
-
-Out of box performance:
-
-FastAI: on 100X histology dataset: 92% on validation set
-Transfer Learning Xception: 88% on training and 75% on validation (overfitting?) Run over 3 epochs
-Simple CNN: 69% on validation and training. Ended up abandoning this model.
-
-The data was pulled from both [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/) and the USF 
 
 
 ## Data Acquisition, Exploration, and Preparation
@@ -130,27 +120,51 @@ The data was split into train/validation/test sets with the percentages of each 
 
 ## Neural Network Selection
 
+In an effort to learn more about neural networks, 3 models based on 2 different ML libraries were selected:
+1. A simple Convolutional Neural Network built with Keras using only 10 layers. 
+2. A complex CNN based off the TensorFlow Xception model. This has 134 layers and used the imagenet weights. Only the head (last 2 layers) were made trainable.
+3. Pytorch-based FastAI, which was the most user-friendly of all the models. Both the resnet34 and the resnet152 were explored. 
+
+Out of box performance for the 3 models on the histology data set:
+
+1. Simple CNN: 69% on validation and training. Ended up abandoning this model.
+2. TF Xception: 88% on training and 75% on validation. 
+3. FastAI: 92% on validation set
+
+The Xception model and FastAI were used for further investigation. Details and performance on the trianing and cross-validation are below in the dropdown menus. After further evaluation, FastAI was selected for optimization on both sets of data. 
+
+A side exploration into data leakage....
+The performance on the mammograms was initially 99.9% on FastAI and over 90% on the TensorFlow model, indicating there was potentially a problem with data leakage or that the model was finding a highly distinguising factor between the cancer and non-cancer images that was unlikely to be a tumor. Further investigation led me to believe that the model was not fitting on tumors, but rather on the image quality: the DICOM images wer from TCIA database and had markely better contrast and were less grainy. The non-cancer images were more likely to have noise and be more blurry. This was rectified by downloading lower quality cancer images from the USF database. 
 
 
-<details>
-    <summary>Raw JSON data</summary>
-    <img alt="Data" src='images/json_data.png'>
-</details>
+
     
 <details>
-    <summary>Raw Extracted Sample Report</summary>
+    <summary>Xception Model</summary>
+    
+    
+    
+    <img alt="Data" src='images/sample_report.png'>
+</details> 
+<details>
+    <summary>FastAI Model</summary>
+    
+    The FastAI model is a user-friendly model built off of Pytorch. The resnet model was specifically developed for "Deep Residual Learning for Image Recognition". The resnet34 model has 34 layers whle the 152 has 152 layers. More information on the architecture of these models can be found [here](https://arxiv.org/abs/1512.03385)
+    
+    The Confusion Matrix for the Histology and Mammogram (CC View) are shown below. The accuracy on the validation set for the histology and mammogram data were 92% and 65%, respectively. 
+    <img src="images/hist/confusion_matrix.png">
     <img alt="Data" src='images/sample_report.png'>
 </details>    
     
-<br>    
     
+<br>        
 
 
 ## Model Performance
 
 <b>Histology Images</b>
 
-Using FASTAI with thre resnet34 model (34 layers), we achieved an accuracy of >87% on the test set across all the magnifications for the normal images. Looking at the AUC curves shows excellent performance across all magnifications ranging from 0.92 to 0.97. The Fourier Transforms of the data did not perform well and are barely above random guessing. 
+Using FASTAI with thre resnet34 model (34 layers), we achieved an accuracy of >90% on the validation set and >87% on the test set across all the magnifications for the normal images. Looking at the AUC curves shows excellent performance across all magnifications ranging from 0.92 to 0.97. The Fourier Transforms of the data did not perform well and are barely above random guessing. 
 
 <table>
     <th>No Transform</th>
@@ -165,7 +179,20 @@ Using FASTAI with thre resnet34 model (34 layers), we achieved an accuracy of >8
 <b>Radiographic Images</b>
 
 The performance on the mammograms was less than the histology data. This is unsurprising given that a fair number of the positive cases are indistinguisable from the negative cases upon a cursory look at all the data. The MLO and CC datasets were trained separately and the CC cases outperformed MLO by roughly +10% on accuracy. This is likely due to the MLO images including sections of pectoral muscle, which could have increased the difficulty in training the model.  
-
+<table>
+    <th>Image View</th>
+    <th>No Transform</th>
+    <th>Sinograms</th>
+    <tr>
+        <td>CC View</td>
+        <td><img src="images/mammograms/roc_mam_new_cc.png" width="500px;"></td>
+        <td><img src="images/mammograms/roc_mam_new_sino_cc.png" width="500px;"></td>
+    </tr>
+    <tr>
+        <td>MLO View</td>
+        <td><img src="images/mammograms/roc_mam_new_mlo.png" width="500px;"></td>
+        <td><img src="images/mammograms/roc_mam_new_sino_mlo.png" width="500px;"></td>
+</table>
 
 
 
@@ -175,3 +202,6 @@ The performance on the mammograms was less than the histology data. This is unsu
 
 1. https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm
 2. https://www.cancer.gov/about-cancer/understanding/statistics
+
+
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
