@@ -1,7 +1,12 @@
 <img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" width="500" height="50">
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" width="500px" height="50px">
+![   ](images/readme/cancer_A_1118_1.RIGHT_CC_sino.png =500x50)
+
+![    ](images/readme/cancer_A_1118_1.RIGHT_CC_sino.png | width=500)
 
 
-# Cancer Detection using Convolutional Neural Networks
+# Cancer Detection Using Convolutional Neural Networks
 
 ![badge](https://img.shields.io/badge/last%20modified-june%20%202020-success)
 ![badge](https://img.shields.io/badge/status-in%20progress-yellow)
@@ -49,19 +54,6 @@ The data was pulled from both [The Cancer Imaging Archive](https://www.cancerima
     - Images from The Cancer Imaging Archive were in DICOM format with accompanying metadata
     - Images from USF Database were in .LJPEG format, a lossless jpeg compression format developed by Stanford
     - Malignancies were grossly identified in some images, but not obvious in most. 
-
-<details>
-    <summary>Raw JSON data</summary>
-    <img alt="Data" src='images/json_data.png'>
-</details>
-    
-<details>
-    <summary>Raw Extracted Sample Report</summary>
-    <img alt="Data" src='images/sample_report.png'>
-</details>    
-    
-<br>    
-    
 
 
 ### Data Exploration
@@ -130,6 +122,8 @@ The mammograms required more extensive processing:
 Sinograms and Fast Fourier Transforms were applied to the images after processing. Some examples of sinogram and FFT transforms are shown below for the histology and radiographic images. 
 
 <table>
+    <th>Radiographic Images</th>
+    <th>Histology Images</th>
     <tr>
         <td><img src="images/radon_fft_rad_2.png" width="500px;"></td>
         <td><img src="images/radon_fft_hist_2.png" width="500px;"></td>
@@ -138,6 +132,21 @@ Sinograms and Fast Fourier Transforms were applied to the images after processin
 
 
 ## Neural Network Selection
+
+
+
+<details>
+    <summary>Raw JSON data</summary>
+    <img alt="Data" src='images/json_data.png'>
+</details>
+    
+<details>
+    <summary>Raw Extracted Sample Report</summary>
+    <img alt="Data" src='images/sample_report.png'>
+</details>    
+    
+<br>    
+    
 
 
 ## Model Performance
