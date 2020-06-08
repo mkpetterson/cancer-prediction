@@ -35,15 +35,40 @@ Simple CNN: 69% on validation and training. Ended up abandoning this model.
 The data was pulled from both [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/) and the USF 
 
 
-## Data Acquisition and Exploration
+## Data Acquisition, Exploration, and Preparation
 
 ### Data Acquisition
 
 
 - The Histology data was pulled from the [Breast Cancer Histopathological Database](https://web.inf.ufpr.br/vri/databases/breast-cancer-histopathological-database-breakhis/) and contains 2 different classes: >2400 benign images and >5400 malignant images at 4 different magnifications (40X, 100X, 200X, 400X).
+    - Images were from a total of 82 patients, with several images at each magnification for each patient
+    - Images were all 700x460 .png files with 3 channels (RGB)
+
 
 - Radiographic images were pulled from two different sites: [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/) and the [USF Digital Mammography Database](http://www.eng.usf.edu/cvprg/Mammography/Database.html).
+    - Images from The Cancer Imaging Archive were in DICOM format with accompanying metadata
+    - Images from USF Database were in .LJPEG format, a lossless jpeg compression format developed by Stanford
+    - Malignancies were grossly identified in some images, but not obvious in most. 
 
+<details>
+    <summary>Raw JSON data</summary>
+    <img alt="Data" src='images/json_data.png'>
+</details>
+    
+<details>
+    <summary>Raw Extracted Sample Report</summary>
+    <img alt="Data" src='images/sample_report.png'>
+</details>    
+    
+<br>    
+    
+
+
+### Data Exploration
+
+A sample of the images are shown below. Note that these thumbnails are the images after fixing the the aspect ratio and image size and not the original images. 
+
+<center><b>Histolopathological Images</b></center>
 <table>
     <th>Tumor Type</th>
     <th>40X</th>
@@ -65,24 +90,51 @@ The data was pulled from both [The Cancer Imaging Archive](https://www.cancerima
         <td><img src="images/readme/SOB_M_DC-14-2523-400-009.png" width="200px"></td>
     </tr>
 </table>    
-            
+          
+<center><b>Radiographic Images</b></center>          
+<table>
+    <th>Pathology</th>
+    <th>Craniocaudal (CC)</th>
+    <th>Craniocaudal (CC)</th>
+    <th>Mediolateral Oblique (MLO)</th>
+    <th>Mediolateral Oblique (MLO)</th>
+    <tr>
+        <td>Normal</td>
+        <td><img src="images/readme/SOB_B_F-14-14134-40-007.png" width="200px"></td>
+        <td><img src="images/readme/SOB_B_PT-14-21998AB-100-005.png" width="200px"></td>
+        <td><img src="images/readme/SOB_B_F-14-29960AB-200-013.png" width="200px"></td>
+        <td><img src="images/readme/SOB_B_A-14-22549AB-400-013.png" width="200px"></td>
+    </tr>
+    <tr>
+        <td>Cancer</td>
+        <td><img src="images/readme/SOB_M_DC-14-2980-40-001.png" width="200px"></td>
+        <td><img src="images/readme/SOB_M_DC-14-11031-200-001.png" width="200px"></td>
+        <td><img src="images/readme/SOB_M_DC-14-13412-100-007.png" width="200px"></td>
+        <td><img src="images/readme/SOB_M_DC-14-2523-400-009.png" width="200px"></td>
+    </tr>
+</table> 
 
 
-<details>
-    <summary>Raw JSON data</summary>
-    <img alt="Data" src='images/json_data.png'>
-</details>
-    
-<details>
-    <summary>Raw Extracted Sample Report</summary>
-    <img alt="Data" src='images/sample_report.png'>
-</details>    
-    
-<br>    
-    
+### Data Preparation
+
+The neural network expects all the images to have the same dimensions, which also includes color channels. The histology images required very little processing as the entire dataset was quite uniform. 
+
+The mammograms required more extensive processing:
+- Dicom images were explored using pydicom and the pixel array was extracted into a numpy array
+- .LJPEG images were unpacked using a modified python script from [here](https://github.com/aaalgo/ljpeg)
+- 10% of the image height and width were cropped to eliminate edge effects 
+- The aspect ratio was determined and either rows or columns were minamally cropped to maintain a uniform AR across all images (no squishing)
+- The images were resized to 400x720 pixels
 
 
-### Data Exploration
+Sinograms and Fast Fourier Transforms were applied to the images after processing. Some examples of sinogram and FFT transforms are shown below for the histology and radiographic images. 
+
+<table>
+    <tr>
+        <td><img src="images/radon_fft_rad_2.png" width="500px;"></td>
+        <td><img src="images/radon_fft_hist_2.png" width="500px;"></td>
+    </tr>
+</table>
 
 
 ## Neural Network Selection
