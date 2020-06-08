@@ -1,3 +1,6 @@
+<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
+
+
 # Cancer Detection using Convolutional Neural Networks
 
 ![badge](https://img.shields.io/badge/last%20modified-june%20%202020-success)
