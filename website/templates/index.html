@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
 <title>Cancer Prediction</title>
 <meta name="description" content="Cancer Prediction">
 <meta name="author" content="Maureen Petterson">
@@ -20,7 +20,7 @@
   <div class="wrapper">
    <div id="menubar">
      <ul id="menulist">
-       <li class="menuitem"><a href="main.html" style="text-decoration: none;">Home</a>
+       <li class="menuitem"><a href="index.html" style="text-decoration: none;">Home</a>
        <li class="menuitem"><a href="histology_frame.html" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="mammogram_frame.html" style="text-decoration: none;" target="right">Mammogram Images</a>
        <li class="menuitem"><a href="machine_learning.html" style="text-decoration: none;">Machine Learning Details</a>
@@ -37,14 +37,14 @@
 	<p><b>Click the links on the left to explore details of the project. Train yourself on the Histology and Mammogram images and try to outdo the neural network. </b>
 	</p>
 
-
+<iframe src="{{ url_for('histology') }}" height="200" width="300"></iframe> 
+<a href="{{ url_for('mammogram') }}">mammogram</a>
+<table>
 <p><td>
-
-
-
-
-
-
+<tr><img src="{{ user_image }}" alt="User Image" width="400"></tr>
+<tr><img src="{{ all_images[0] }}" alt="User Image" width="400"></tr>
+</td>
+</table>
        </div>
  
   </div>  

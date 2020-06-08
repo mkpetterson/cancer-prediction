@@ -131,9 +131,9 @@ Out of box performance for the 3 models on the histology data set:
 2. TF Xception: 88% on training and 75% on validation. 
 3. FastAI: 92% on validation set
 
-The Xception model and FastAI were used for further investigation. Details and performance on the trianing and cross-validation are below in the dropdown menus. After further evaluation, FastAI was selected for optimization on both sets of data. 
+The Xception model and FastAI were used for further investigation. Details and performance on the trianing and cross-validation are below in the dropdown menus. Custom classes were created to streamlime fitting and predicting on the models for the various datasets. The FastAI model was eventually selected for optimization on both sets of data due to it's relatively quick run-time and good performance. 
 
-A side exploration into data leakage....
+A side exploration into data leakage....<br>
 The performance on the mammograms was initially 99.9% on FastAI and over 90% on the TensorFlow model, indicating there was potentially a problem with data leakage or that the model was finding a highly distinguising factor between the cancer and non-cancer images that was unlikely to be a tumor. Further investigation led me to believe that the model was not fitting on tumors, but rather on the image quality: the DICOM images wer from TCIA database and had markely better contrast and were less grainy. The non-cancer images were more likely to have noise and be more blurry. This was rectified by downloading lower quality cancer images from the USF database. 
 
 
@@ -144,14 +144,14 @@ The performance on the mammograms was initially 99.9% on FastAI and over 90% on 
     
     
     
-    <img alt="Data" src='images/sample_report.png'>
+    <img src="images/hist/cf_40X.png">
 </details> 
 <details>
     <summary>FastAI Model</summary>
     
-    The FastAI model is a user-friendly model built off of Pytorch. The resnet model was specifically developed for "Deep Residual Learning for Image Recognition". The resnet34 model has 34 layers whle the 152 has 152 layers. More information on the architecture of these models can be found [here](https://arxiv.org/abs/1512.03385)
+The FastAI model is a user-friendly model built off of Pytorch. The resnet model was specifically developed for "Deep Residual Learning for Image Recognition". The resnet34 and resnet152 models have (unsurprisingly) 34 and 152 layers, respectively. More information on the architecture of these models can be found [here](https://arxiv.org/abs/1512.03385). No meaingingful difference was found vetween the performance of the models, with both having an AUC on the test set of 0.72 and 0.71. 
     
-    The Confusion Matrix for the Histology and Mammogram (CC View) are shown below. The accuracy on the validation set for the histology and mammogram data were 92% and 65%, respectively. 
+The Confusion Matrix for the Histology and Mammogram (CC View) are shown below. The accuracy on the validation set for the histology and mammogram data were 92% and 65%, respectively. 
     <img src="images/hist/confusion_matrix.png">
     <img alt="Data" src='images/sample_report.png'>
 </details>    

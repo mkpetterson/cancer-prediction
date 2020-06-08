@@ -1,13 +1,33 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 from src import test
 import os
 
+IMAGE_FOLDER = os.path.join('static', 'images')
+IMAGE_PATHS = [os.path.join(IMAGE_FOLDER,f) for f in os.listdir(IMAGE_FOLDER)]
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
+app.config['ALL_IMAGES'] = IMAGE_PATHS
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('my_html.html')
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'radon_fft_rad_2.png')
+    return render_template('index.html', user_image = full_filename, all_images = IMAGE_PATHS)
+
+
+# Histology page
+@app.route('/histology/')
+def histology():
+    return render_template('histology_frame.html', all_images = IMAGE_PATHS)
+
+
+# Mammogram page
+@app.route('/mammogram')
+def mammogram():
+    return render_template('mammogram_frame.html', all_images = IMAGE_PATHS)
+
+
+
 
 
 @app.route('/display', methods=['POST'])
