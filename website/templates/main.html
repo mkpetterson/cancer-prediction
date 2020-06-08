@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Cancer Prediction</title>
+<meta name="description" content="Cancer Prediction">
+<meta name="author" content="Maureen Petterson">
+<script src="{{ url_for('static', filename='brython.js')}}"></script>
+<script src="{{ url_for('static', filename='brython_stdlib.js')}}"></script>
+</head>
+
+
+<body onload="brython()">
+
+<div class="container wrapper">
+  <div id="top">
+   <center><h1>Cancer Detection Using Convolutional Neural Networks</h1>
+    <p>Maureen Petterson</p>
+  </div>
+  <div class="wrapper">
+   <div id="menubar">
+     <ul id="menulist">
+       <li class="menuitem"><a href="main.html" style="text-decoration: none;">Home</a>
+       <li class="menuitem"><a href="histology_frame.html" style="text-decoration: none;">Histology Images</a>
+       <li class="menuitem"><a href="mammogram_frame.html" style="text-decoration: none;" target="right">Mammogram Images</a>
+       <li class="menuitem"><a href="machine_learning.html" style="text-decoration: none;">Machine Learning Details</a>
+       <li class="menuitem"><a href="play.html" style="text-decoration: none;">Play with images</a>
+     </ul>
+    </div>
+    <div id="main">
+      <h1>Sample text?</h1>
+      <p>Some blurb about predicting cancer. Take from readme. Add in table with histology images, mammogram images. <br>
+      <a href="https://www.cancerimagingarchive.net" >Link to Cancer Imaging Archive</a>,
+      <a href="http://www.eng.usf.edu/cvprg/Mammography/Database.html">Link to USF Digital Mammagrophy Database</a>,
+      </p>
+
+	<p><b>Click the links on the left to explore details of the project. Train yourself on the Histology and Mammogram images and try to outdo the neural network. </b>
+	</p>
+
+
+<p><td>
+
+
+
+
+
+
+       </div>
+ 
+  </div>  
+  
+  
+  <div id="bottom">
+    Want to check out other projects? Check out my Github link <a href="https://github.com/mkpetterson">here</a>.
+  </div>
+</div>
+
+
+
+
+<script type="text/python">
+
+
+from browser import document, ajax
+import json
+
+def get_input_coefficients():
+    text = document['text'].value
+
+    return {'text': text}
+
+def display_solutions(req):
+    result = json.loads(req.text)
+    # note the syntax for setting the child text of an element
+    document['word_count'].html = f"{result['words_count']}"
+    document['solution'].html = f"{result['words']}"
+
+def send_coefficient_json(coefficients):
+    req = ajax.Ajax()
+    req.bind('complete', display_solutions)
+    req.open('POST',
+                '/display',
+                True)
+    req.set_header('Content-Type', 'application/json')
+    req.send(json.dumps(coefficients))
+
+def click(event):
+    coefficients = get_input_coefficients()
+    send_coefficient_json(coefficients)
+
+document['display'].bind('click', click)
+
+</script>
+
+
+
+</body>
+</html>
+
+

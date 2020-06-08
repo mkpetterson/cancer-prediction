@@ -1,0 +1,192 @@
+<html lang='en'>
+<head>
+
+<title>Mood analyzer</title>
+<meta name="description" content="Mood analyzer">
+<meta name="author" content="Maureen Petterson">
+<script src="{{ url_for('static', filename='brython.js')}}"></script>
+<script src="{{ url_for('static', filename='brython_stdlib.js')}}"></script>
+
+
+<style>/* Stylesheet 1: */
+body {
+    font: 100% Lucida Sans, Verdana;
+    margin: 20px;
+    line-height: 26px;
+}
+
+.container {
+    xmin-width: 900px;
+}
+
+.wrapper {
+    position: relative;
+    overflow: auto;
+}
+
+#top, #sidebar, #bottom, .menuitem {
+    border-radius: 4px;
+    margin: 4px;
+}
+
+#top {
+    background-color: #4CAF50;
+    color: #ffffff;
+    padding: 15px;
+}
+
+#menubar {
+    width: 200px;
+    float: left
+}
+
+#main {
+    padding: 10px;
+    margin: 0 210px;
+}
+
+#sidebar {
+    background-color: #32a4e7;
+    color: #ffffff;
+    padding: 10px;
+    width: 180px;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    position: absolute;
+}
+
+#bottom {
+    border: 1px solid #d4d4d4;
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    font-size: 70%;
+    line-height: 14px;
+}
+
+#top h1, #top p, #menulist {
+    margin: 0;
+    padding: 0;
+}
+
+.menuitem {
+    background-color: #f1f1f1;
+    border: 1px solid #d4d4d4;
+    list-style-type: none;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.menuitem:hover {
+    background-color: #ffffff;
+}
+
+.menuitem:first-child {
+   background-color:#4CAF50;
+   color: white;
+   font-weight:bold;
+}
+
+a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+@media (max-width: 800px) {
+    #sidebar {
+        width: auto;
+        position: relative;
+    } 
+    #main {
+        margin-right: 0;
+    }    
+       
+}
+
+@media (max-width: 600px) {
+    #menubar {
+        width: auto;
+        float: none;
+    }
+    #main {
+        margin: 0;
+    }    
+}
+</style>
+
+</head>
+
+<body onload="brython()">
+<div class="wrapper">
+<div id="menubar">
+ <h1>Have your mood analyzed!</h1>
+<p>This app will analyze journal entries to gauge your current mental state and give recommendations.</p>
+
+</div>
+</div>
+<div>
+<!-- These have id's so that later we can pull out data using js. -->
+<span>Write a bit about how your feeling. Aim to have at least 100 words.
+<br>
+</span> <textarea id="text" rows="3" cols="80"></textarea>
+
+</div>
+
+<div>
+<button type="button" id="display">Analyze!</button>
+</div>
+
+
+<div>
+<!-- The span has an id so that later we can fill in the solution using js. -->
+<p> The word count is: <span id="word_count"></span></p>
+<p> The text break down is: <span id="solution"></span> </p>
+<p> Our analysis shows that your general mood is: <span id="mood"></span></p>
+<p> Our recommendation is that you: <span id='recommendation'></span></p>
+
+
+
+<script type="text/python">
+
+
+from browser import document, ajax
+import json
+
+def get_input_coefficients():
+    text = document['text'].value
+
+    return {'text': text}
+
+def display_solutions(req):
+    result = json.loads(req.text)
+    # note the syntax for setting the child text of an element
+    document['word_count'].html = f"{result['words_count']}"
+    document['solution'].html = f"{result['words']}"
+
+def send_coefficient_json(coefficients):
+    req = ajax.Ajax()
+    req.bind('complete', display_solutions)
+    req.open('POST',
+                '/display',
+                True)
+    req.set_header('Content-Type', 'application/json')
+    req.send(json.dumps(coefficients))
+
+def click(event):
+    coefficients = get_input_coefficients()
+    send_coefficient_json(coefficients)
+
+document['display'].bind('click', click)
+
+</script>
+
+
+
+</body>
+</html>
