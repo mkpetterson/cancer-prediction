@@ -4,6 +4,7 @@ import os
 
 IMAGE_FOLDER = os.path.join('static', 'images')
 IMAGE_PATHS = [os.path.join(IMAGE_FOLDER,f) for f in os.listdir(IMAGE_FOLDER)]
+LINK_IMAGE_PATHS = [os.path.join('../', i) for i in IMAGE_PATHS]
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
@@ -16,16 +17,28 @@ def index():
 
 
 # Histology page
-@app.route('/histology/')
+@app.route('/histology/', methods=['GET'])
 def histology():
-    return render_template('histology_frame.html', all_images = IMAGE_PATHS)
-
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'radon_fft_rad_2.png')
+    return render_template('histology_frame.html', all_images=IMAGE_PATHS)
 
 # Mammogram page
-@app.route('/mammogram')
+@app.route('/mammogram/', methods=['GET'])
 def mammogram():
-    return render_template('mammogram_frame.html', all_images = IMAGE_PATHS)
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'radon_fft_rad_2.png')
+    return render_template('mammogram_frame.html', all_images=LINK_IMAGE_PATHS)
 
+# Machine Learning page
+@app.route('/ml/', methods=['GET'])
+def ml():
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'radon_fft_rad_2.png')
+    return render_template('ml_frame.html', all_images=LINK_IMAGE_PATHS)
+
+# Interactive page
+@app.route('/interactive/', methods=['GET'])
+def interactive():
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'radon_fft_rad_2.png')
+    return render_template('interactive_frame.html', all_images=LINK_IMAGE_PATHS )
 
 
 
