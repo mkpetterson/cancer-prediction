@@ -77,17 +77,17 @@ A sample of the images are shown below. Note that these thumbnails are the image
     <th>Mediolateral Oblique (MLO)</th>
     <tr>
         <td>Normal</td>
-        <td><img src="images/readme/SOB_B_F-14-14134-40-007.png" width="200px"></td>
-        <td><img src="images/readme/SOB_B_PT-14-21998AB-100-005.png" width="200px"></td>
-        <td><img src="images/readme/SOB_B_F-14-29960AB-200-013.png" width="200px"></td>
-        <td><img src="images/readme/SOB_B_A-14-22549AB-400-013.png" width="200px"></td>
+        <td><img src="images/readme/D_4562_1.LEFT_CC.png" width="100px"></td>
+        <td><img src="images/readme/A_1669_1.RIGHT_CC.png" width="100px"></td>
+        <td><img src="images/readme/A_1539_1.LEFT_MLO.png" width="100px"></td>
+        <td><img src="images/readme/C_0202_1.LEFT_MLO.png" width="100px"></td>
     </tr>
     <tr>
         <td>Cancer</td>
-        <td><img src="images/readme/SOB_M_DC-14-2980-40-001.png" width="200px"></td>
-        <td><img src="images/readme/SOB_M_DC-14-11031-200-001.png" width="200px"></td>
-        <td><img src="images/readme/SOB_M_DC-14-13412-100-007.png" width="200px"></td>
-        <td><img src="images/readme/SOB_M_DC-14-2523-400-009.png" width="200px"></td>
+        <td><img src="images/readme/cancer_B_3081_1.LEFT_CC.png" width="100px"></td>
+        <td><img src="images/readme/cancer_D_4178_1.LEFT_CC.png" width="100px"></td>
+        <td><img src="images/readme/cancer_A_1501_1.RIGHT_MLO.png" width="100px"></td>
+        <td><img src="images/readme/cancer_C_0011_1.RIGHT_MLO.png" width="100px"></td>
     </tr>
 </table> 
 
@@ -110,10 +110,12 @@ Sinograms and Fast Fourier Transforms were applied to the images after processin
     <th>Radiographic Images</th>
     <th>Histology Images</th>
     <tr>
-        <td><img src="images/radon_fft_rad_2.png" width="500px;"></td>
-        <td><img src="images/radon_fft_hist_2.png" width="500px;"></td>
+        <td><img src="images/radon_fft_rad_2.png" width="500px"></td>
+        <td><img src="images/radon_fft_hist_2.png" width="500px"></td>
     </tr>
 </table>
+
+
 
 
 The data was split into train/validation/test sets with the percentages of each being 70/20/10. Model performance was gauged based on both accuracy and AUC of the test set. 
@@ -152,8 +154,17 @@ The performance on the mammograms was initially 99.9% on FastAI and over 90% on 
 The FastAI model is a user-friendly model built off of Pytorch. The resnet model was specifically developed for "Deep Residual Learning for Image Recognition". The resnet34 and resnet152 models have (unsurprisingly) 34 and 152 layers, respectively. More information on the architecture of these models can be found [here](https://arxiv.org/abs/1512.03385). No meaingingful difference was found vetween the performance of the models, with both having an AUC on the test set of 0.72 and 0.71. 
     
 The Confusion Matrix for the Histology and Mammogram (CC View) are shown below. The accuracy on the validation set for the histology and mammogram data were 92% and 65%, respectively. 
-    <img src="images/hist/confusion_matrix.png">
-    <img alt="Data" src='images/sample_report.png'>
+
+<center>
+<table>
+    <th>Histology</th>
+    <th>Mammograms</th>
+    <tr>
+        <td><img src="images/hist/cf_100X.png" width="300px"> </td>
+        <td><img src="images/mammograms/cf_mammograms_new_cc.png" width="300px"> </td>
+    </tr>
+</table>
+</center>
 </details>    
     
     

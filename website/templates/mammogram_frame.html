@@ -28,15 +28,41 @@
      </ul>
     </div>
     <div id="main">
-	<p><b>Click the links on the left to explore details of the project. Train yourself on the Histology and Mammogram images and try to outdo the neural network. </b>
-	</p>
+<center><h2>Radiographic Images (Mammograms)</h2></center>
+<p>Radiographic images were pulled from two different sites: <br>
+<a href="https://www.cancerimagingarchive.net/">The Cancer Imaging Archive</a> <br>
+<a href="http://www.eng.usf.edu/cvprg/Mammography/Database.html">USF Digital Mammography Database</a>.
+<ul>
+<li>Images from The Cancer Imaging Archive were in DICOM format with accompanying metadata
+<li>Images from USF Database were in .LJPEG format, a lossless jpeg compression format developed by Stanford
+<li>Malignancies were grossly identified in some images, but not obvious in most
+</ul>
 
+         
+<center><b>Radiographic Images</b></center>          
 <table>
-<p><td>
-<tr><img src="{{ user_image }}" alt="User Image" width="400"></tr>
-<tr><img src="{{ all_images[0] }}" alt="User Image" width="400"></tr>
-</td>
-</table>
+    <th>Pathology</th>
+    <th>Craniocaudal (CC)</th>
+    <th>Craniocaudal (CC)</th>
+    <th>Mediolateral Oblique (MLO)</th>
+    <th>Mediolateral Oblique (MLO)</th>
+    <tr>
+        <td>Normal</td>
+        <td><img src="/static/images/mammograms/D_4562_1.LEFT_CC.png" width="200px"></td>
+        <td><img src="/static/images/mammograms/A_1669_1.RIGHT_CC.png" width="200px"></td>
+        <td><img src="/static/images/mammograms/A_1539_1.LEFT_MLO.png" width="200px"></td>
+        <td><img src="/static/images/mammograms/C_0202_1.LEFT_MLO.png" width="200px"></td>
+    </tr>
+    <tr>
+        <td>Cancer</td>
+        <td><img src="/static/images/mammograms/cancer_B_3081_1.LEFT_CC.png" width="200px"></td>
+        <td><img src="/static/images/mammograms/cancer_D_4178_1.LEFT_CC.png" width="200px"></td>
+        <td><img src="/static/images/mammograms/cancer_A_1501_1.RIGHT_MLO.png" width="200px"></td>
+        <td><img src="/static/images/mammograms/cancer_C_0011_1.RIGHT_MLO.png" width="200px"></td>
+    </tr>
+</table> 
+
+
        </div>
  
   </div>  
