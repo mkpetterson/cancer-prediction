@@ -15,7 +15,6 @@
 <div class="container wrapper">
   <div id="top">
    <center><h1>Cancer Detection Using Convolutional Neural Networks</h1>
-    <p>Maureen Petterson</p>
   </div>
   <div class="wrapper">
    <div id="menubar">
@@ -23,8 +22,8 @@
        <li class="menuitem"><a href="{{ url_for('index') }}" style="text-decoration: none;">Home</a>
        <li class="menuitem"><a href="{{ url_for('histology') }}" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="{{ url_for('mammogram') }}"style="text-decoration: none;">Mammogram Images</a>
-       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Machine Learning Details</a>
-       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Play with images</a>
+       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Classification Algorithm</a>
+       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Compete Against the Neural Network</a>
       </ul>
     </div>
     <div id="main">
@@ -33,7 +32,7 @@
 
 <h2>Project Goals</h2>
 <ul>
-<li>Build a simple breast cancer image classifier for both mammograms and histology images using convolutional neural networks
+<li>Build a cancer image classifier for both mammograms and histology (microscopic/cellular) images using convolutional neural networks
 <li>Evaluate different neural network architectures: Xception Model via TensorFlow Keras and also Pytorch-based FastAI
 <li>Apply Radon and Fast Fourier Transforms to the images and evaluate CNN model performance
 </ul>
@@ -41,29 +40,21 @@
 
 
 	<p><b>Click the links on the left to explore details of the project. Train yourself on the Histology and Mammogram images and try to outdo the neural network. </b>
-	</p>
-
-
-
-
+	</p><br>
 
 
 <table>
-<p><td>
-<tr><img src="{{ user_image }}" alt="User Image" width="400"></tr>
-<tr><img src="{{ all_images[0] }}" alt="User Image" width="400"></tr>
-</td>
+<p><tr>
+<td><img src="/static/images/Mass-Training_P_01270_RIGHT_CC_ar_sino.png" alt="User Image" width="300"></td>
+<td><img src="/static/images/Mass-Training_P_00737_LEFT_MLO_ar_sino.png" alt="User Image" width="300"></td>
+<td><img src="/static/images/cancer_A_1118_1.RIGHT_CC_sino.png" alt="User Image" width="300"></td>
+</tr>
 </table>
        </div>
  
   </div>  
   
 
-Sources
-<ul>
-    <li><a href="https://www.cancerimagingarchive.net" >Cancer Imaging Archive</a>,
-    <li><a href="http://www.eng.usf.edu/cvprg/Mammography/Database.html">USF Digital Mammagrophy Database</a>,
-</ul>  
   <div id="bottom">
     Want to check out other projects? Check out my Github link <a href="https://github.com/mkpetterson">here</a>.
   </div>

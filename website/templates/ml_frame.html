@@ -23,23 +23,47 @@
        <li class="menuitem"><a href="{{ url_for('index') }}" style="text-decoration: none;">Home</a>
        <li class="menuitem"><a href="{{ url_for('histology') }}" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="{{ url_for('mammogram') }}"style="text-decoration: none;">Mammogram Images</a>
-       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Machine Learning Details</a>
-       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Play with images</a>
+       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Classification Algorithm</a>
+       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Compete Against the Neural Network</a>
      </ul>
     </div>
     <div id="main">
+	<center><h2>Classification Algorithms</h2></center>
 
-	<p><b>Click the links on the left to explore details of the project. Train yourself on the Histology and Mammogram images and try to outdo the neural network. </b>
-	</p>
+	<b>Histology Images</b><br>
+
+	Using FASTAI with thre resnet34 model (34 layers), we achieved an accuracy of >90% on the validation set and >87% on the test set across all the magnifications for the normal images. Looking at the AUC curves shows excellent performance across all magnifications ranging from 0.92 to 0.97. The Fourier Transforms of the data did not perform well and are barely above random guessing. 
+
+	<table>
+	    <th>No Transform</th>
+	    <th>FFT</th>
+	    <tr>
+		<td><img src="/static/images/ml/roc_hist_all.png" width="500px;"></td>
+		<td><img src="/static/images/ml/roc_fft_hist.png" width="500px;"></td>
+	    </tr>
+	</table>
+<br>
 
 
-<table>
-<p><td>
-<tr><img src="{{ user_image }}" alt="User Image" width="400"></tr>
-<tr><img src="{{ all_images[0] }}" alt="User Image" width="400"></tr>
-</td>
-</table>
-       </div>
+	<b>Radiographic Images</b><br>
+
+	The performance on the mammograms was less than the histology data. This is unsurprising given that a fair number of the positive cases are indistinguisable from the negative cases upon a cursory look at all the data. The MLO and CC datasets were trained separately and the CC cases outperformed MLO by roughly +10% on accuracy. This is likely due to the MLO images including sections of pectoral muscle, which could have increased the difficulty in training the model.  
+	<table>
+	    <th>Image View</th>
+	    <th>No Transform</th>
+	    <th>Sinograms</th>
+	    <tr>
+		<td>CC View</td>
+		<td><img src="/static/images/ml/roc_mam_new_cc.png" width="500px;"></td>
+		<td><img src="/static/images/ml/roc_mam_new_sino_cc.png" width="500px;"></td>
+	    </tr>
+	    <tr>
+		<td>MLO View</td>
+		<td><img src="/static/images/ml/roc_mam_new_mlo.png" width="500px;"></td>
+		<td><img src="/static/images/ml/roc_mam_new_sino_mlo.png" width="500px;"></td>
+	</table>
+
+   </div>
  
   </div>  
   

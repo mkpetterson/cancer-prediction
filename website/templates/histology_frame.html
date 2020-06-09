@@ -23,25 +23,68 @@
        <li class="menuitem"><a href="{{ url_for('index') }}" style="text-decoration: none;">Home</a>
        <li class="menuitem"><a href="{{ url_for('histology') }}" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="{{ url_for('mammogram') }}"style="text-decoration: none;">Mammogram Images</a>
-       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Machine Learning Details</a>
-       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Play with images</a>
+       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Classification Algorithm</a>
+       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Compete Against the Neural Network</a>
      </ul>
     </div>
     <div id="main">
+	<center><h2>Histology Images</h2></center>
 
-	<p><b>Click the links on the left to explore details of the project. Train yourself on the Histology and Mammogram images and try to outdo the neural network. </b>
-	</p>
+	The Histology data was pulled from the <a href="https://web.inf.ufpr.br/vri/databases/breast-cancer-histopathological-database-breakhis/">Breast Cancer Histopathological Database</a>. 
+	<ul>
+	<li>>2400 benign images and >5400 malignant images at 4 different magnifications (40X, 100X, 200X, 400X).
+	<li>Images were from a total of 82 patients, with several images at each magnification for each patient
+	<li>Images were all 700x460 .png files with 3 channels (RGB)
+	</ul><br>
 
+	<center><b>Histolopathological Images</b></center>
+	<table>
+	    <th>Tumor Type</th>
+	    <th>40X</th>
+	    <th>100X</th>
+	    <th>200X</th>
+	    <th>400X</th>
+	    <tr>
+		<td>Benign</td>
+		<td><img src="/static/images/histology/SOB_B_F-14-14134-40-007.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_B_PT-14-21998AB-100-005.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_B_F-14-29960AB-200-013.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_B_A-14-22549AB-400-013.png" width="200px"></td>
+	    </tr>
+	    <tr>
+		<td>Malignant</td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-2980-40-001.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-11031-200-001.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-13412-100-007.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-2523-400-009.png" width="200px"></td>
+	    </tr>
+	</table>    
 
-<center><iframe src="{{ url_for('index') }}" height="400" width="800"></iframe> </center>
+	<br>
+	<center><b>Fast Fourier Transform of Images</b></center>
 
+	<table>
+	    <th>Tumor Type</th>
+	    <th>40X</th>
+	    <th>100X</th>
+	    <th>200X</th>
+	    <th>400X</th>
+	    <tr>
+		<td>Benign</td>
+		<td><img src="/static/images/histology/SOB_B_F-14-14134-40-007_fft.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_B_PT-14-21998AB-100-005_fft.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_B_F-14-29960AB-200-013_fft.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_B_A-14-22549AB-400-013_fft.png" width="200px"></td>
+	    </tr>
+	    <tr>
+		<td>Malignant</td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-2980-40-001_fft.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-11031-200-001_fft.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-13412-100-007_fft.png" width="200px"></td>
+		<td><img src="/static/images/histology/SOB_M_DC-14-2523-400-009_fft.png" width="200px"></td>
+	    </tr>
+	</table>  
 
-<table>
-<p><td>
-<tr><img src="{{ all_images[0] }}" alt="User Image" width="400"></tr>
-<tr><img src="{{ all_images[1] }}" alt="User Image" width="400"></tr>
-</td>
-</table>
        </div>
  
   </div>  

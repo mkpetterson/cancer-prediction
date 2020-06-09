@@ -19,27 +19,22 @@ def index():
 # Histology page
 @app.route('/histology/', methods=['GET'])
 def histology():
-    # H_IMAGES is a folder, not images
-    H_IMAGES = os.path.join(IMAGE_FOLDER, 'histology')    
-    return render_template('histology_frame.html', all_images=H_IMAGES)
+    return render_template('histology_frame.html')
 
 # Mammogram page
 @app.route('/mammogram/', methods=['GET'])
 def mammogram():
-    M_IMAGES = os.path.join(IMAGE_FOLDER, 'mammograms')    
-    return render_template('mammogram_frame.html', all_images=M_IMAGES)
+    return render_template('mammogram_frame.html')
 
 # Machine Learning page
 @app.route('/ml/', methods=['GET'])
 def ml():
-    ML_IMAGES = os.path.join(IMAGE_FOLDER, 'machine_learning')
-    return render_template('ml_frame.html', all_images=ML_IMAGES)
+    return render_template('ml_frame.html')
 
 # Interactive page
 @app.route('/interactive/', methods=['GET'])
 def interactive():
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'radon_fft_rad_2.png')
-    return render_template('interactive_frame.html', all_images=LINK_IMAGE_PATHS )
+    return render_template('interactive_frame.html')
 
 
 

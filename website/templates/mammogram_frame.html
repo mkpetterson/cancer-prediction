@@ -23,45 +23,71 @@
        <li class="menuitem"><a href="{{ url_for('index') }}" style="text-decoration: none;">Home</a>
        <li class="menuitem"><a href="{{ url_for('histology') }}" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="{{ url_for('mammogram') }}"style="text-decoration: none;">Mammogram Images</a>
-       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Machine Learning Details</a>
-       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Play with images</a>
+       <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Classification Algorithm</a>
+       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Compete Against the Neural Network</a>
      </ul>
     </div>
     <div id="main">
-<center><h2>Radiographic Images (Mammograms)</h2></center>
-<p>Radiographic images were pulled from two different sites: <br>
-<a href="https://www.cancerimagingarchive.net/">The Cancer Imaging Archive</a> <br>
-<a href="http://www.eng.usf.edu/cvprg/Mammography/Database.html">USF Digital Mammography Database</a>.
-<ul>
-<li>Images from The Cancer Imaging Archive were in DICOM format with accompanying metadata
-<li>Images from USF Database were in .LJPEG format, a lossless jpeg compression format developed by Stanford
-<li>Malignancies were grossly identified in some images, but not obvious in most
-</ul>
+	<center><h2>Radiographic Images (Mammograms)</h2></center>
 
-         
-<center><b>Radiographic Images</b></center>          
-<table>
-    <th>Pathology</th>
-    <th>Craniocaudal (CC)</th>
-    <th>Craniocaudal (CC)</th>
-    <th>Mediolateral Oblique (MLO)</th>
-    <th>Mediolateral Oblique (MLO)</th>
-    <tr>
-        <td>Normal</td>
-        <td><img src="/static/images/mammograms/D_4562_1.LEFT_CC.png" width="200px"></td>
-        <td><img src="/static/images/mammograms/A_1669_1.RIGHT_CC.png" width="200px"></td>
-        <td><img src="/static/images/mammograms/A_1539_1.LEFT_MLO.png" width="200px"></td>
-        <td><img src="/static/images/mammograms/C_0202_1.LEFT_MLO.png" width="200px"></td>
-    </tr>
-    <tr>
-        <td>Cancer</td>
-        <td><img src="/static/images/mammograms/cancer_B_3081_1.LEFT_CC.png" width="200px"></td>
-        <td><img src="/static/images/mammograms/cancer_D_4178_1.LEFT_CC.png" width="200px"></td>
-        <td><img src="/static/images/mammograms/cancer_A_1501_1.RIGHT_MLO.png" width="200px"></td>
-        <td><img src="/static/images/mammograms/cancer_C_0011_1.RIGHT_MLO.png" width="200px"></td>
-    </tr>
-</table> 
 
+	<p>Radiographic images were pulled from two different sites: <br>
+	<a href="https://www.cancerimagingarchive.net/">The Cancer Imaging Archive</a> <br>
+	<a href="http://www.eng.usf.edu/cvprg/Mammography/Database.html">USF Digital Mammography Database</a>.
+	<ul>
+	<li>Images from The Cancer Imaging Archive were in DICOM format with accompanying metadata
+	<li>Images from USF Database were in .LJPEG format, a lossless jpeg compression format developed by Stanford
+	<li>Malignancies were grossly identified in some images, but not obvious in most
+	</ul>
+
+		 
+	<center><b>Radiographic Images</b></center>          
+	<table>
+	    <th>Pathology</th>
+	    <th>Craniocaudal (CC)</th>
+	    <th>Craniocaudal (CC)</th>
+	    <th>Mediolateral Oblique (MLO)</th>
+	    <th>Mediolateral Oblique (MLO)</th>
+	    <tr>
+		<td>Normal</td>
+		<td><img src="/static/images/mammograms/D_4562_1.LEFT_CC.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/A_1669_1.RIGHT_CC.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/A_1539_1.LEFT_MLO.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/C_0202_1.LEFT_MLO.png" width="200px"></td>
+	    </tr>
+	    <tr>
+		<td>Cancer</td>
+		<td><img src="/static/images/mammograms/cancer_B_3081_1.LEFT_CC.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/cancer_D_4178_1.LEFT_CC.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/cancer_A_1501_1.RIGHT_MLO.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/cancer_C_0011_1.RIGHT_MLO.png" width="200px"></td>
+	    </tr>
+	</table> 
+
+	<br>
+	<center><b>Radon Transform of Radiographic Images</b></center>    
+
+	<table>
+	    <th>Pathology</th>
+	    <th>Craniocaudal (CC)</th>
+	    <th>Craniocaudal (CC)</th>
+	    <th>Mediolateral Oblique (MLO)</th>
+	    <th>Mediolateral Oblique (MLO)</th>
+	    <tr>
+		<td>Normal</td>
+		<td><img src="/static/images/mammograms/D_4562_1.LEFT_CC_sino.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/A_1669_1.RIGHT_CC_sino.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/A_1539_1.LEFT_MLO_sino.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/C_0202_1.LEFT_MLO_sino.png" width="200px"></td>
+	    </tr>
+	    <tr>
+		<td>Cancer</td>
+		<td><img src="/static/images/mammograms/cancer_B_3081_1.LEFT_CC_sino.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/cancer_D_4178_1.LEFT_CC_sino.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/cancer_A_1501_1.RIGHT_MLO_sino.png" width="200px"></td>
+		<td><img src="/static/images/mammograms/cancer_C_0011_1.RIGHT_MLO_sino.png" width="200px"></td>
+	    </tr>
+	</table> 
 
        </div>
  
