@@ -15,7 +15,7 @@
 <div class="container wrapper">
   <div id="top">
    <center><h1>Cancer Detection Using Convolutional Neural Networks</h1>
-    <p>Maureen Petterson</p>
+
   </div>
   <div class="wrapper">
    <div id="menubar">
@@ -24,26 +24,39 @@
        <li class="menuitem"><a href="{{ url_for('histology') }}" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="{{ url_for('mammogram') }}"style="text-decoration: none;">Mammogram Images</a>
        <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Classification Algorithm</a>
-       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Compete Against the Neural Network</a>
+       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Try Classifying Images</a>
      </ul>
     </div>
     <div id="main">
-	<center><h2>Test the Neural Network!</h2><br>
-	Try to classify these images and see how your classifications compare against the Neural Network. 
-	<br></center><br>
+	<center><h2>Test the Neural Network!</h2><br></center>
+	Try to classify these images and see how your classifications compare against the Neural Network. <br>
+	Some things to keep in mind:
+	<ul>
+	<li>Determining whether or not an image indicates cancer can be very difficult
+	<li>This is typically done by trained medical professionals
+	</ul>
+	<br><br>
 
-	<center><img src="/static/images/interactive/SOB_B_F-14-29960AB-100-013.png" alt="User Image" height="300">
+	<center><img src="/static/images/interactive/SOB_B_F-14-29960AB-100-013.png" id="display_img" value="SOB_B_F-14-29960AB-100-013.png" alt="User Image" height="300">
  	<table>
 	<tr>
 		<td><button type="button" id="button_c">CANCER</button></td>
-		<td><button type="button" id="button_n">NOT CANCER</button></td>
+		<td><button type="button" id="button_n">NOT CANCER</button></td> 	
 	</tr>	
 	</table>
-	</center>
+	
+
+	<!-- The span has an id so that later we can fill in the solution using js. -->
+	<span id="msg"></span>
+	<span id="y_true"></span>
+	<span id="y_pred"></span>
+	</cancer>
+
        </div>
  
   </div>  
-  
+
+
   
   <div id="bottom">
     Want to check out other projects? Check out my Github link <a href="https://github.com/mkpetterson">here</a>.
@@ -59,17 +72,20 @@
 from browser import document, ajax
 import json
 
-def get_input_coefficients():
-    text = document['text'].value
 
-    return {'text': text}
+#def get_input_coefficients(user_pred):
+#    image_name = document['display_image'].value 
+#    return {'user_pred': user_pred, 'image_name' = image_name}
 
+# Display the results
 def display_solutions(req):
-    result = json.loads(req.text)
+   # result = json.loads(req.text)
     # note the syntax for setting the child text of an element
-    document['word_count'].html = f"{result['words_count']}"
-    document['solution'].html = f"{result['words']}"
+    document['msg'].html = 'cancer' #f"{result['words_count']}"
+    document['y_true'].html = '1' #f"{result['words']}"
+    document['y_pred'].html = '3'
 
+# Send inputs from page to app.py
 def send_coefficient_json(coefficients):
     req = ajax.Ajax()
     req.bind('complete', display_solutions)
@@ -79,15 +95,22 @@ def send_coefficient_json(coefficients):
     req.set_header('Content-Type', 'application/json')
     req.send(json.dumps(coefficients))
 
-def click(event):
-    print('click!')
-    coefficients = get_input_coefficients()
-    send_coefficient_json(coefficients)
+# What happens when button is clicked
+def click_c(event):
+    user_pred = 1
+#    coefficients = get_input_coefficients(user_pred)
+    send_coefficient_json(user_pred)
 
-document['display'].bind('click', click)
+def click_n(event):
+    user_pred = 3
+#    coefficients = get_input_coefficients(user_pred)
+    send_coefficient_json(user_pred)
+
+document['button_c'].bind('click', click_c)
+document['button_d'].bind('click', click_n)
+
 
 </script>
-
 
 
 </body>

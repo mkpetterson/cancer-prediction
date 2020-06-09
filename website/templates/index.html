@@ -23,12 +23,14 @@
        <li class="menuitem"><a href="{{ url_for('histology') }}" style="text-decoration: none;">Histology Images</a>
        <li class="menuitem"><a href="{{ url_for('mammogram') }}"style="text-decoration: none;">Mammogram Images</a>
        <li class="menuitem"><a href="{{ url_for('ml') }}" style="text-decoration: none;">Classification Algorithm</a>
-       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Compete Against the Neural Network</a>
+       <li class="menuitem"><a href="{{ url_for('interactive') }}" style="text-decoration: none;">Try Classifying Images</a>
       </ul>
     </div>
     <div id="main">
       <h2>Introduction</h2>
       <p>Cancer is the second leading cause of death in the United States, with over 1.7 million people expected to be diagnosed this year. Among the different types of cancer, lung and breast are the most common. Radiography is one of the first diagnostic tests used to diagnose tumors and subsequent biopsy can determine if a tumor is malignant of benign. Early detection is key to improving outcomes. </p>
+
+<p>The advent of image classification through machine learning has given the medical industry another tool with which to help diagnose patients. While advanced imaging algorithms and neural networks cannot replace medical professionals, this technology can help guide the diagnosis.</p>
 
 <h2>Project Goals</h2>
 <ul>
@@ -59,45 +61,6 @@
     Want to check out other projects? Check out my Github link <a href="https://github.com/mkpetterson">here</a>.
   </div>
 </div>
-
-
-
-
-<script type="text/python">
-
-
-from browser import document, ajax
-import json
-
-def get_input_coefficients():
-    text = document['text'].value
-
-    return {'text': text}
-
-def display_solutions(req):
-    result = json.loads(req.text)
-    # note the syntax for setting the child text of an element
-    document['word_count'].html = f"{result['words_count']}"
-    document['solution'].html = f"{result['words']}"
-
-def send_coefficient_json(coefficients):
-    req = ajax.Ajax()
-    req.bind('complete', display_solutions)
-    req.open('POST',
-                '/display',
-                True)
-    req.set_header('Content-Type', 'application/json')
-    req.send(json.dumps(coefficients))
-
-def click(event):
-    print('click!')
-    coefficients = get_input_coefficients()
-    send_coefficient_json(coefficients)
-
-document['display'].bind('click', click)
-
-</script>
-
 
 
 </body>

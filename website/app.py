@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify, url_for
+from src import find_pred as fp
 from src import test
 import os
 
-IMAGE_FOLDER = os.path.join('static', 'images')
+IMAGE_FOLDER = os.path.join('static', 'images/interactive')
 IMAGE_PATHS = [os.path.join(IMAGE_FOLDER,f) for f in os.listdir(IMAGE_FOLDER)]
-LINK_IMAGE_PATHS = [os.path.join('../', i) for i in IMAGE_PATHS]
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
@@ -34,14 +34,18 @@ def ml():
 # Interactive page
 @app.route('/interactive/', methods=['GET'])
 def interactive():
-    return render_template('interactive_frame.html')
+    return render_template('interactive_frame.html', img_paths = IMAGE_PATHS)
 
 
+@app.route('/test/', methods=['GET', 'POST'])
+def test():
+    print('hello')
+    return 'hello'
 
 
 @app.route('/display', methods=['POST'])
 def display():
-    user_data = request.json
+    user_pred = request.json
     text = user_data['text']
     words = test.tokenize(text)
     words_count = word_count(text)

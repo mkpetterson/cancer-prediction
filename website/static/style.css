@@ -25,13 +25,13 @@ body {
 }
 
 #menubar {
-    width: 200px;
+    width: 250px;
     float: left
 }
 
 #main {
     padding: 10px;
-    margin: 0 210px;
+    margin: 0 270px;
 }
 
 #sidebar {
