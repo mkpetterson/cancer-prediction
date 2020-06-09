@@ -213,6 +213,3 @@ The performance on the mammograms was less than the histology data. This is unsu
 
 1. https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm
 2. https://www.cancer.gov/about-cancer/understanding/statistics
-
-
-<img src="images/readme/cancer_A_1118_1.RIGHT_CC_sino.png" style="width: 100%; height: 20%;">
