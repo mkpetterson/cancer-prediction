@@ -45,17 +45,28 @@ def test():
 
 @app.route('/display', methods=['POST'])
 def display():
-    user_pred = request.json
-    text = user_data['text']
-    words = test.tokenize(text)
-    words_count = word_count(text)
-    return jsonify({'words': words, 'words_count': words_count})
+    page_info = request.json
+    img = page_info['image']
+    user_pred = page_info['user_pred']
+
+    # Get image predictions and true labels
+    y_true, y_pred, y_prob = fp.find_pred(img)
+    msg = fp.compare_pred(user_pred, img)
+
+    return jsonify({'y_true': y_true, 'y_pred': y_pred, 'img_path': img_path})
 
 
-def word_count(text):
-    words = text.split()
-    number = test.do_numpy_stuff()
-    return len(words)
+@app.route('/mew_image', methods=['POST'])
+def new_image():
+    page_info = request.json
+
+    # Render new image
+    path = '/static/images/interactive/'
+    img = fp.pick_random_image(path)
+    img_path = os.path.join(path, img)
+    img_string = f'<img src="{img_path}" alt="User Image" width="600">'
+
+    return jsonify({'img_string': img_string})
 
 
 

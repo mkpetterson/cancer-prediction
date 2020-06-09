@@ -37,11 +37,13 @@
 	</ul>
 	<br><br>
 
-	<center><img src="/static/images/interactive/SOB_B_F-14-29960AB-100-013.png" id="display_img" value="SOB_B_F-14-29960AB-100-013.png" alt="User Image" height="300">
+	<center><span id="img"></span>
+
  	<table>
 	<tr>
 		<td><button type="button" id="button_c">CANCER</button></td>
-		<td><button type="button" id="button_n">NOT CANCER</button></td> 	
+		<td><button type="button" id="button_n">NOT CANCER</button></td>
+		<td><button type="button" id="button_new">NEW IMAGE</button></td>  	
 	</tr>	
 	</table>
 	
@@ -77,13 +79,17 @@ import json
 #    image_name = document['display_image'].value 
 #    return {'user_pred': user_pred, 'image_name' = image_name}
 
-# Display the results
+
+# Display the results of cancer vs not cancer
 def display_solutions(req):
    # result = json.loads(req.text)
+
     # note the syntax for setting the child text of an element
     document['msg'].html = 'cancer' #f"{result['words_count']}"
     document['y_true'].html = '1' #f"{result['words']}"
     document['y_pred'].html = '3'
+ #   document['img'].html = '<img src="/static/images/interactive/SOB_B_F-14-29960AB-100-013.png"  alt="User Image" height="300">'
+
 
 # Send inputs from page to app.py
 def send_coefficient_json(coefficients):
@@ -94,6 +100,15 @@ def send_coefficient_json(coefficients):
                 True)
     req.set_header('Content-Type', 'application/json')
     req.send(json.dumps(coefficients))
+
+
+# Tell app.py to get new image
+def get_new_image(event):
+ #   path = '/static/images/interactive/'
+ #   img = fp.pick_random_image(path)
+ #   img_path = os.path.join(path, img)
+ #   img_string = f'<img src="{img_path}" alt="User Image" width="600">'
+    document['img'].html = f'<img src="/static/images/interactive/SOB_B_F-14-29960AB-100-013.png"  alt="User Image" height="300">'
 
 # What happens when button is clicked
 def click_c(event):
@@ -106,8 +121,16 @@ def click_n(event):
 #    coefficients = get_input_coefficients(user_pred)
     send_coefficient_json(user_pred)
 
+def click_new(event):
+    user_pred = 3
+#    coefficients = get_input_coefficients(user_pred)
+    send_coefficient_json(user_pred)
+
+
 document['button_c'].bind('click', click_c)
-document['button_d'].bind('click', click_n)
+document['button_n'].bind('click', click_n)
+document['button_new'].bind('click', get_new_image)
+
 
 
 </script>

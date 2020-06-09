@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 
-df = pd.read_csv('test_pred_hist_mam.csv')
+df = pd.read_csv('src/test_pred_hist_mam.csv')
 
 def find_pred(img):
     """Output y_true, y_pred for given image"""
@@ -27,17 +27,14 @@ def compare_pred(user_pred, img):
     
     if user_pred == y_true:
         msg = "Correct"
-        flag = 1
     else:
         msg = "Not Correct"
-        flag = 0
         
     return msg        
         
     
 def pick_random_image(path):
-    
+    print(os.getcwd())
     files = [f for f in os.listdir(path) if '.png' in f]    
-    idx = np.random.randint(0, len(files)-1)
-    
+    idx = np.random.randint(0, len(files)-1)    
     return files[idx]
