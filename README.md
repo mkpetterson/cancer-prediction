@@ -17,9 +17,9 @@
 
 ## Introduction
 
-Cancer is the second leading cause of death in the United States (1), with over 1.7 million people expected to be diagnosed this year (2). Among the different types of cancer, lung and breast are the most common. Radiography is one of the first diagnostic tests used to diagnose tumors and subsequent biopsy can determine if a tumor is malignant of benign. Early detection is key to improving outcomes. 
+Cancer is the second leading cause of death in the United States<sup>1</sup>, with over 1.7 million people expected to be diagnosed this year<sup>2</sup>. Among the different types of cancer, lung and breast are the most common. Radiography is one of the first diagnostic tests used to diagnose tumors and subsequent biopsy can determine if a tumor is malignant of benign. Early detection is key to improving outcomes. 
 
-The advent of image classsification thorugh machine learning has given the medical industry another tool with which to help diagnose patients. While advanced imaging algorithms and neural networks cannot replace medical professionals, this technology can help guide the diagnosis. 
+The advent of image classification through machine learning has given the medical industry another tool with which to help diagnose patients. While advanced imaging algorithms and neural networks cannot replace medical professionals, this technology can help guide the diagnosis. 
 
 The goal of this project was to build a simple breast cancer image classifier using convolutional neural networks using both histology (microscopic) images from biopsies and radiographic images (mammograms). Additionally, Radon transforms and Fast Fourier Transforms were applied to see if they could augment the predictions. 2 different CNNs were investigated: Tensorflow and Pytorch-based FastAI. 
 
@@ -138,20 +138,12 @@ The Xception model and FastAI were used for further investigation. Details and p
 A side exploration into data leakage....<br>
 The performance on the mammograms was initially 99.9% on FastAI and over 90% on the TensorFlow model, indicating there was potentially a problem with data leakage or that the model was finding a highly distinguising factor between the cancer and non-cancer images that was unlikely to be a tumor. Further investigation led me to believe that the model was not fitting on tumors, but rather on the image quality: the DICOM images wer from TCIA database and had markely better contrast and were less grainy. The non-cancer images were more likely to have noise and be more blurry. This was rectified by downloading lower quality cancer images from the USF database. 
 
+    
 
-
-    
-<details>
-    <summary>Xception Model</summary>
-    
-    
-    
-    <img src="images/hist/cf_40X.png">
-</details> 
 <details>
     <summary>FastAI Model</summary>
     
-The FastAI model is a user-friendly model built off of Pytorch. The resnet model was specifically developed for "Deep Residual Learning for Image Recognition". The resnet34 and resnet152 models have (unsurprisingly) 34 and 152 layers, respectively. More information on the architecture of these models can be found [here](https://arxiv.org/abs/1512.03385). No meaingingful difference was found vetween the performance of the models, with both having an AUC on the test set of 0.72 and 0.71. 
+The FastAI model is a user-friendly model built off of Pytorch. The resnet model was specifically developed for "Deep Residual Learning for Image Recognition". The resnet34 and resnet152 models have (unsurprisingly) 34 and 152 layers, respectively. More information on the architecture of these models can be found [here](https://arxiv.org/abs/1512.03385). No meaingingful difference was found between the performance of the models, with both having an AUC on the test set of 0.72 and 0.71. 
     
 The Confusion Matrix for the Histology and Mammogram (CC View) are shown below. The accuracy on the validation set for the histology and mammogram data were 92% and 65%, respectively. 
 
@@ -167,6 +159,32 @@ The Confusion Matrix for the Histology and Mammogram (CC View) are shown below. 
 </center>
 </details>    
     
+    
+<details>
+    <summary>Xception Model</summary>
+    
+The Xception model, which is explained in detail [here](https://arxiv.org/abs/1610.02357) is a 126 layer model optimized for image performance. Weights from the ImageNet database were loaded and only the last few layers (head) of the model were trained on the histology and mammogram data. Model performance was worse than FastAI, with trends towards overfitting. 
+    
+<table>
+    <th>Train/Validation</th>
+    <th>Histology</th>
+    <th>Mammogram</th>
+    <tr>
+        <td>Training Set</td>
+        <td>91% Accuracy</td>
+        <td>65% Accuracy</td>
+    </tr>
+    <tr>
+        <td>Validation Set</td>
+        <td>65%-79% Accuracy</td>
+        <td> 60% Accuracy</td>
+    </tr>
+    </table>
+    
+Due to the better performance by FastAI, that was the model chosen for subsequent investigations. 
+      
+    
+</details>     
     
 <br>        
 
@@ -208,6 +226,13 @@ The performance on the mammograms was less than the histology data. This is unsu
 
 
 ## Conclusion
+
+The FastAI model had great performance on the histology slides and good performance on the mammograms. Both models could certainly be used to augment medical professionals in diagnosing cancer. 
+
+Some additional experimentation was done by building an interactive app with Flask to allow a user to gauge their ability at detecting cancer. This should get posted on an EC2 to allow anyone to explore the data. 
+
+<center><img src="images/readme/webapp.png" width="500px"></center>
+
 
 ### Notes
 
