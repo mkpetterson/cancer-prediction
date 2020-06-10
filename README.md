@@ -222,7 +222,7 @@ The performance on the mammograms was less than the histology data. This is unsu
     <tr>
         <td>MLO View</td>
         <td><img src="images/mammograms/roc_mam_new_mlo.png" width="500px;"></td>
-        <td><img src="images/mammograms/roc_mam_new_sino_mlo.png" width="500px;"></td>
+
 </table>
 
 
