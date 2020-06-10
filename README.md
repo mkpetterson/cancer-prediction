@@ -116,9 +116,7 @@ Sinograms and Fast Fourier Transforms were applied to the images after processin
 </table>
 
 
-
-
-The data was split into train/validation/test sets with the percentages of each being 70/20/10. Model performance was gauged based on both accuracy and AUC of the test set. 
+The data was split into train/validation/test sets with the percentages of each being 70/20/10. Model performance was gauged based on both accuracy and AUC of the test set. The distribution of the classes was around 60/40 for both dataset. 
 
 ## Neural Network Selection
 
@@ -127,7 +125,7 @@ In an effort to learn more about neural networks, 3 models based on 2 different 
 2. A complex CNN based off the TensorFlow Xception model. This has 134 layers and used the imagenet weights. Only the head (last 2 layers) were made trainable.
 3. Pytorch-based FastAI, which was the most user-friendly of all the models. Both the resnet34 and the resnet152 were explored. 
 
-Out of box performance for the 3 models on the histology data set:
+Out of box accuracy for the 3 models on the histology data set:
 
 1. Simple CNN: 69% on validation and training. Ended up abandoning this model.
 2. TF Xception: 88% on training and 75% on validation. 
@@ -172,14 +170,18 @@ The Xception model, which is explained in detail [here](https://arxiv.org/abs/16
     <tr>
         <td>Training Set</td>
         <td>91% Accuracy</td>
-        <td>65% Accuracy</td>
+        <td>68% Accuracy</td>
     </tr>
     <tr>
         <td>Validation Set</td>
         <td>65%-79% Accuracy</td>
-        <td> 60% Accuracy</td>
+        <td>74% Accuracy</td>
     </tr>
     </table>
+    
+Even though the accuracy of the Xception Model was 74% on the Validation set, the performane on the test set was poor, as shown in this ROC curve. This highlights why accuracy is not always the best metric with which to judge the performance of any classification algorithm. 
+<center> <img src="images/readme/nn_roc_cc.png", width="400px"></center>
+    
     
 Due to the better performance by FastAI, that was the model chosen for subsequent investigations. 
       

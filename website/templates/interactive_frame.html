@@ -37,17 +37,20 @@
 	</ol>
 	<br>
 
-
 	<center>
+	
 	<font color="white"> <span id="solution"></span></font><br>
 		<span id="img"></span>
- 	<table>
-	<tr>
-	<td><button type="button" id="button_c">CANCER</button></td>
-	<td><button type="button" id="button_n">NOT CANCER</button></td>
-	<td><button type="button" id="button_new">NEW IMAGE</button></td>  	
-	</tr>	
-	</table>
+
+		<table>
+		<tr>
+		<td><button type="button" id="button_c">CANCER</button></td>
+		<td><button type="button" id="button_n">NOT CANCER</button></td>
+		<td><button type="button" id="button_new">NEW IMAGE</button></td>	
+		</tr>	
+		</table>
+	
+	</center>
 	
 
 	<!-- The span has an id so that later we can fill in the solution using js. -->
@@ -63,7 +66,7 @@
 
   
   <div id="bottom">
-    Want to check out other projects? Check out my Github link <a href="https://github.com/mkpetterson">here</a>.
+    Want to check out other projects? Check out my <a href="https://github.com/mkpetterson">Github</a>.
   </div>
 </div>
 
@@ -77,13 +80,33 @@ import random
 
 # List of images
 lst = [['cancer_D_4096_1.RIGHT_CC.png', 1, 1],
+['D_4526_1.LEFT_CC.png', 0, 0],
 ['A_1160_1.LEFT_CC.png', 0, 0],
-['SOB_M_LC-14-13412-100-023.png', 1, 1],
+['cancer_C_0226_1.RIGHT_CC.png', 1, 1],
+['cancer_D_4141_1.LEFT_CC.png', 1, 0],
+['cancer_C_0231_1.LEFT_CC.png', 1, 0],
+['cancer_C_0182_1.RIGHT_CC.png', 1, 1],
+['cancer_C_0143_1.RIGHT_CC.png', 1, 1],
+['B_3618_1.LEFT_CC.png', 0, 0],
+['B_3387_1.LEFT_CC.png', 0, 1],
+['A_2010_1.RIGHT_CC.png', 0, 0],
+['A_1618_1.LEFT_CC.png', 0, 0],
 ['cancer_C_0049_1.LEFT_CC.png', 1, 1],
-['B_3498_1.RIGHT_CC.png', 0, 1],
-['SOB_M_LC-14-13412-100-033.png', 1, 1],
+['B_3498_1.RIGHT_CC.png', 0, 1]]
+
+lst2 = [['SOB_M_LC-14-13412-100-033.png', 1, 1],
 ['SOB_B_F-14-29960AB-100-013.png', 0, 1],
-['SOB_B_F-14-21998EF-100-012.png', 0, 0]]
+['SOB_B_F-14-21998EF-100-012.png', 0, 0],
+['SOB_M_MC-14-10147-100-010.png', 1, 1],
+['SOB_M_LC-14-15570C-100-013.png', 1, 1],
+['SOB_B_TA-14-16184CD-100-025.png', 0, 1],
+['SOB_B_PT-14-22704-100-025.png', 0, 0],
+['SOB_M_LC-14-13412-100-023.png', 1, 1],
+['SOB_M_MC-14-13413-100-021.png', 1, 1],
+['SOB_M_LC-14-15570-100-020.png', 1, 1],
+['SOB_B_F-14-29960AB-100-013.png', 0, 1],
+['SOB_B_A-14-22549CD-100-023.png', 0, 0],
+['SOB_B_F-14-21998EF-100-023.png', 0, 0]]
 
 results = []
 
@@ -114,7 +137,7 @@ def send_coefficient_json(coefficients):
 
 # Tell app.py to get new image
 def get_new_image(event):
-    count = random.randint(0,7)
+    count = random.randint(0,13)
     item = lst[count]
     results.append(item)
 
