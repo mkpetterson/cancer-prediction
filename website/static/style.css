@@ -13,6 +13,10 @@ body {
     overflow: auto;
 }
 
+.font_color {
+    color: #f67ffd
+}
+
 #top, #sidebar, #bottom, .menuitem {
     border-radius: 4px;
     margin: 4px;
@@ -34,6 +38,9 @@ body {
     margin: 0 270px;
 }
 
+#font_color {
+    color: #f67ffd
+}
 #sidebar {
     background-color: #32a4e7;
     color: #ffffff;

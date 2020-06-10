@@ -37,13 +37,15 @@
 	</ul>
 	<br>
 
-	<center><span id="img"></span>
 
+	<center>
+	<font color="white"> <span id="solution"></span></span><br>
+		<span id="img"></span>
  	<table>
 	<tr>
-		<td><button type="button" id="button_c">CANCER</button></td>
-		<td><button type="button" id="button_n">NOT CANCER</button></td>
-		<td><button type="button" id="button_new">NEW IMAGE</button></td>  	
+	<td><button type="button" id="button_c">CANCER</button></td>
+	<td><button type="button" id="button_n">NOT CANCER</button></td>
+	<td><button type="button" id="button_new">NEW IMAGE</button></td>  	
 	</tr>	
 	</table>
 	
@@ -65,9 +67,6 @@
   </div>
 </div>
 
-
-
-
 <script type="text/python">
 
 
@@ -86,6 +85,7 @@ lst = [['cancer_D_4096_1.RIGHT_CC.png', 1, 1],
 ['SOB_B_F-14-29960AB-100-013.png', 0, 1],
 ['SOB_B_F-14-21998EF-100-012.png', 0, 0]]
 
+results = []
 
 #def get_input_coefficients(user_pred):
 #    image_name = document['display_image'].value 
@@ -115,11 +115,47 @@ def send_coefficient_json(coefficients):
 # Tell app.py to get new image
 def get_new_image(event):
     count = random.randint(0,7)
-    img_path = os.path.join('/static/images/interactive/', lst[count][0])
-    img_string = f'<img src="{img_path}" alt="User Image" height="400">'
-    document['img'].html = img_string
-    return None    
+    item = lst[count]
+    results.append(item)
 
+    if item[1] == 1:
+        y_true = 'Cancer'
+    else:
+        y_true = 'Not Cancer'
+
+    if item[2] == 1:
+	y_pred = 'Cancer'
+    else:
+	y_pred = 'Not Cancer'
+
+    str1 = f'Actual Diagnosis: {y_true}, CNN Prediction: {y_pred}'
+
+    img_path = os.path.join('/static/images/interactive/', item[0])
+    img_string = f'<img src="{img_path}" alt="User Image" height="400">'
+
+    # Show elements
+    document['img'].html = img_string
+    document['solution'].html = str1
+
+    return count, y_true, y_pred    
+
+
+def reveal_solution(event):
+    item = results[-1]
+
+    if item[1] == 1:
+        y_true = '<font color="red">Cancer</font>'
+    else:
+        y_true = '<font color="green">Not Cancer</font>'
+
+    if item[2] == 1:
+	y_pred = '<font color="red">Cancer</font>'
+    else:
+	y_pred = '<font color="green">Not Cancer</font>'
+
+    str1 = f'Actual Diagnosis: {y_true}, CNN Prediction: {y_pred}'
+
+    document['solution'].html = f'<font color="black">{str1}</font>'
 
 # What happens when button is clicked
 def click_c(event):
@@ -133,8 +169,8 @@ def click_n(event):
     send_coefficient_json(user_pred)
 
 
-document['button_c'].bind('click', click_c)
-document['button_n'].bind('click', click_n)
+document['button_c'].bind('click', reveal_solution)
+document['button_n'].bind('click', reveal_solution)
 document['button_new'].bind('click', get_new_image)
 
 
