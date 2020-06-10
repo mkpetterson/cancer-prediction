@@ -232,7 +232,7 @@ The performance on the mammograms was less than the histology data. This is unsu
 The FastAI model had great performance on the histology slides and good performance on the mammograms. Both models could certainly be used to augment medical professionals in diagnosing cancer. 
 
 Some additional experimentation was done by building an interactive app with Flask to allow a user to gauge their ability at detecting cancer. This should get posted on an EC2 to allow anyone to explore the data. 
-
+![   ](images/readme/short.gif)
 <center><img src="images/readme/webapp.png" width="500px"></center>
 
 
