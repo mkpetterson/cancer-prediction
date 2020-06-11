@@ -60,7 +60,7 @@ class FastAI():
         # Start training
         self.learn = cnn_learner(data, models.resnet34, metrics=error_rate)
         defaults.device = torch.device('cpu') #cuda
-        self.learn.fit_one_cycle(4)
+        self.learn.fit_one_cycle(7)
         
         # Save model
         #self.learn.save(f'../../{model_name}')

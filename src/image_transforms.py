@@ -37,14 +37,16 @@ def sinogram(img_path):
     # Open image and rescale (sinogram is slow)
     image = imageio.imread(img_path).sum(axis=2) # for 3 channel images
     
-    # Rescale if dealing with large image, otherwise ignore
- #   image = rescale(image, scale=0.4, mode='reflect', multichannel=False)
     
     # Make sinogram
     theta = np.linspace(0., 180., max(image.shape), endpoint=False)
     sino = radon(image, theta=theta, circle=True)
     
     # Save image
-    imageio.imsave(f'{img_name}_sino.png', sino)
+    plt.imshow(sino)
+    plt.axis('off') 
+    plt.savefig(f'{img_name}_sino2.png', bbox_inches = 'tight',
+    pad_inches = 0, dpi=350)
+#    imageio.imsave(f'{img_name}_sino2.png', sino)
     
     return None

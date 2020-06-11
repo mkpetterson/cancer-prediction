@@ -34,7 +34,7 @@ def make_dataframe(name, filenames, y_true, y_pred, y_proba):
     return None
 
 
-def make_confusion(name, y_true, y_pred, y_proba):
+def make_confusion(name, y_true, y_pred):
     """ Plot and save confusion matrix """
     
     # Make confusion plot
@@ -55,8 +55,8 @@ def plot_roc(ax, label, y_true, y_proba):
     """ Plots ROC curve given true labels and predicted probabilities"""
     
     # Get AUC score and fpr, tpr, thresholds
-    auc = roc_auc_score(y_true, y_proba[:,1])
-    fpr, tpr, thresholds = roc_curve(y_true, y_proba[:,1])    
+    auc = roc_auc_score(y_true, y_proba[:,0])
+    fpr, tpr, thresholds = roc_curve(y_true, y_proba[:,0])    
     
     # Plot on ax
     ax.plot(fpr, tpr, label=f'{label} AUC: {auc:2.2f}')

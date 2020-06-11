@@ -122,7 +122,7 @@ The data was split into train/validation/test sets with the percentages of each 
 
 In an effort to learn more about neural networks, 3 models based on 2 different ML libraries were selected:
 1. A simple Convolutional Neural Network built with Keras using only 10 layers. 
-2. A complex CNN based off the TensorFlow Xception model. This has 134 layers and used the imagenet weights. Only the head (last 2 layers) were made trainable.
+2. A complex CNN based off the TensorFlow Xception model. This has 126 layers and used the imagenet weights. Only the head (last 2 layers) were made trainable.
 3. Pytorch-based FastAI, which was the most user-friendly of all the models. Both the resnet34 and the resnet152 were explored. 
 
 Out of box accuracy for the 3 models on the histology data set:
@@ -233,7 +233,6 @@ The FastAI model had great performance on the histology slides and good performa
 
 Some additional experimentation was done by building an interactive app with Flask to allow a user to gauge their ability at detecting cancer. This should get posted on an EC2 to allow anyone to explore the data. 
 ![   ](images/readme/short.gif)
-<center><img src="images/readme/webapp.png" width="500px"></center>
 
 
 ### Notes
