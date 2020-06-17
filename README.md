@@ -3,7 +3,7 @@
 # Cancer Detection Using Convolutional Neural Networks
 
 ![badge](https://img.shields.io/badge/last%20modified-june%20%202020-success)
-![badge](https://img.shields.io/badge/status-in%20progress-yellow)
+![badge](https://img.shields.io/badge/status-completed-success)
 
 
 ## Table of Contents
@@ -225,8 +225,10 @@ The performance on the mammograms was less than the histology data. This is unsu
 
 </table>
 
-Interestingly enough, the 
+The transforms did not add value to the cancer prediction. Creating an aggregate model by averaging the predicted probabilities for both the sinogram images and the raw images yields a negligibly better outcome. Shown below is the ROC curve for the CC mammogram view. Displayed are both the ROC for raw images only, and the ROC for the aggregate model of raw images + sinograms. 
 
+
+<center><img src = "images/mammograms/transform_roc_cc.png" width="500px;"><center>
 
 ## Conclusion
 
