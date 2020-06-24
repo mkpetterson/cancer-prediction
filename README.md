@@ -9,7 +9,7 @@
 ## Table of Contents
 
 - <a href="https://github.com/mkpetterson/Cancer_Prediction#Introduction">Introduction</a> 
-- <a href="https://github.com/mkpetterson/Cancer_Prediction#data-acquition-and-exploration">Data Acquisition and Exploration</a> 
+- <a href="https://github.com/mkpetterson/Cancer_Prediction#data-acquisition-exploration-and-preparation">Data Acquisition and Exploration</a> 
 - <a href="https://github.com/mkpetterson/Cancer_Prediction#neural-network-selection">Neural Network Selection</a> 
 - <a href="https://github.com/mkpetterson/Cancer_Prediction#model-performance">Model Performance</a> 
 - <a href="https://github.com/mkpetterson/Cancer_Prediction#conclusion">Conclusion</a>
@@ -227,9 +227,10 @@ The performance on the mammograms was less than the histology data. This is unsu
 
 The transforms did not add value to the cancer prediction. Creating an aggregate model by averaging the predicted probabilities for both the sinogram images and the raw images yields a negligibly better outcome. Shown below is the ROC curve for the CC mammogram view. Displayed are both the ROC for raw images only, and the ROC for the aggregate model of raw images + sinograms. 
 
-
+<p align="middle">
 <center><img src = "images/mammograms/transform_roc_cc.png" width="500px;"><center>
-
+</p>
+    
 ## Conclusion
 
 The FastAI model had great performance on the histology slides and good performance on the mammograms. Both models could certainly be used to augment medical professionals in diagnosing cancer. 
